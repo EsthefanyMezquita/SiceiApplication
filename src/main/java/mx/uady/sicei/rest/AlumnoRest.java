@@ -1,6 +1,10 @@
 package mx.uady.sicei.rest;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import mx.uady.sicei.model.Alumno;
+import mx.uady.sicei.model.request.AlumnoRequest;
 import mx.uady.sicei.service.AlumnoService;
 
 @RestController // Metaprogramacion
@@ -23,38 +29,45 @@ public class AlumnoRest {
     @Autowired
     private AlumnoService alumnoService;
 
-    @GetMapping("/alumnos") // Verbo GET, URL: uady.mx/api/alumnos
+    // GET /api/alumnos
+    @GetMapping("/alumnos")
     public ResponseEntity<List<Alumno>> getAlumnos() {
         return ResponseEntity.ok().body(alumnoService.getAlumnos());
     }
 
-    @PostMapping("/alumnos") // ? /alumnos/crear
-    public ResponseEntity<Alumno> crearAlumno(@RequestBody Alumno alumno) throws Exception {
-        Alumno alumnoCreado = alumnoService.crearAlumno(alumno);
-        return ResponseEntity.ok().body(alumnoCreado);
+    @GetMapping("/alumnos/{id}")
+    public ResponseEntity<Alumno> getAlumno(@PathVariable Integer id) {
+        return ResponseEntity.ok().body(alumnoService.getAlumno(id));
     }
 
-    // Path Paramater
-    @PutMapping("/alumnos/{matricula}") // PUT /alumnos/1001930
-    public ResponseEntity<Alumno> editarAlumno(@PathVariable String matricula, @RequestBody Alumno alumno) throws Exception {
-        Alumno alumnoEditado = alumnoService.editarAlumno(matricula,alumno);
-        return ResponseEntity.ok().body(alumnoEditado);
+    @GetMapping("/alumnos/buscar") // RequestParam = Query parameter -> ?llave=valor&llave=valor
+    public ResponseEntity<List<Alumno>> searchAlumnos(@RequestParam("nombre") String nombre) {
+        return ResponseEntity.ok().body(alumnoService.buscarAlumnos(nombre));
     }
 
-  
-    // Path Paramater
-    @GetMapping("/alumnos/{matricula}") // GET /alumnos/1001930
-    public ResponseEntity<Alumno> obtenerAlumno(@PathVariable String matricula) {
-    Alumno alumnoBuscado = alumnoService.obtenerAlumno(matricula);
-    return ResponseEntity.ok().body(alumnoBuscado);
+    // POST /api/alumnos
+    @PostMapping("/alumnos")
+    public ResponseEntity<Alumno> postAlumnos(@RequestBody @Valid AlumnoRequest request) throws URISyntaxException {
+
+        // RequestBody le indica a Java que estamos esperando un request que cumpla con
+        // los campos del Objeto AlumnoRequest
+
+        Alumno alumno = alumnoService.crearAlumno(request);
+
+        // 201 Created
+        // Header: Location
+        return ResponseEntity.created(new URI("/alumnos/" + alumno.getId())).body(alumno);
     }
 
-    // Path Paramater
-    @DeleteMapping("/alumnos/{matricula}") // DELETE /alumnos/1001930
-    public ResponseEntity<Void> eliminarAlumno(@PathVariable String matricula) {
-        alumnoService.eliminarAlumno(matricula);
+    @PutMapping("/alumnos/{id}")
+    public ResponseEntity<Alumno> actualizarAlumno(@RequestBody @Valid AlumnoRequest request,
+            @PathVariable Integer id) {
+        return ResponseEntity.ok().body(alumnoService.actualizarAlumno(id, request));
+    }
+
+    @DeleteMapping("/alumnos/{id}")
+    public ResponseEntity<Void> eliminarAlumno(@PathVariable Integer id) {
+        alumnoService.eliminarAlumno(id);
         return ResponseEntity.ok().build();
     }
-
-
 }

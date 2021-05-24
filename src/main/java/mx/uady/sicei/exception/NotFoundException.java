@@ -6,9 +6,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(code = HttpStatus.NOT_FOUND)
 public class NotFoundException extends RuntimeException {
 
-    // RuntimeException VS Exception
-    // Unchecked Exceptions VS Checked Exceptions
-
     public NotFoundException() {
         super("La entidad no pudo ser encontrada.");
     }

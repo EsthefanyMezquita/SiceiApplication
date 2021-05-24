@@ -11,6 +11,7 @@ import mx.uady.sicei.model.Licenciatura;
 public class AlumnoRequest {
 
     @NotEmpty
+    @Size(min = 1, max = 255)
     private String nombre;
 
     @NotNull

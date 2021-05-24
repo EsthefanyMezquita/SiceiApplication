@@ -7,14 +7,17 @@ import javax.validation.constraints.Size;
 public class UsuarioRequest {
 
     @NotNull
+    @Size(min = 5, max = 50)
     @NotEmpty
     private String usuario;
 
     @NotNull
+    @Size(min = 1, max = 255)
     @NotEmpty
     private String nombre;
 
     @NotNull
+    @Size(min = 5, max = 50)
     @NotEmpty
     private String password;
 

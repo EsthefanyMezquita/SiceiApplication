@@ -1,56 +1,70 @@
 package mx.uady.sicei.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Entity
+@Table(name = "profesores")
 public class Profesor {
-    private Long idEmpleado; // NO vacia - null or ""
-    private String nombre; // No vacio - null or ""
-    private int horasClase;
-    private String correo;
 
-    
-    public Profesor() {
-    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    public Profesor(Long idEmpleado, String nombre, int horasClase, String correo) {
-        this.idEmpleado = idEmpleado;
+    @Column(name = "nombre")
+    private String nombre;
+
+    @Column(name = "horas")
+    private Integer horas;
+
+    public Profesor(){}
+
+    public Profesor(Integer id,String nombre,Integer horas){
+        this.id = id;
         this.nombre = nombre;
-        this.horasClase = horasClase;
-        this.correo = correo;
-
+        this.horas = horas;
     }
 
-    public Long getIdEmpleado() {
-        return idEmpleado;
+    public Integer getId(){
+        return this.id;
     }
-    public String getCorreo() {
-        return correo;
+
+    public void setId(Integer id){
+        this.id = id;
     }
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
-    public int getHorasClase() {
-        return horasClase;
-    }
-    public void setHorasClase(int horasClase) {
-        this.horasClase = horasClase;
-    }
+
     public String getNombre() {
-        return nombre;
+        return this.nombre;
     }
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    public void setIdEmpleado(long idEmpleado) {
-        this.idEmpleado = idEmpleado;
+
+    public Integer getHoras() {
+        return this.horas;
     }
-    
+
+    public void setHoras(Integer horas) {
+        this.horas = horas;
+    }
 
     @Override
     public String toString() {
-        return "{" +
-            " número de empleado='" + getIdEmpleado() + "'" +
-            ", nombre='" + getNombre() + "'" +
-            ", horas de clase='" + getHorasClase() +"'" +
-            ", correo='" + getCorreo() + "'" +
-            "}";
+        return "{" + " id='" + getId() + "'" + ", nombre='" + getNombre() + "'" + ", horas='" + getHoras() + "'" + "}";
     }
+
 }

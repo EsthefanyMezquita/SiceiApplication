@@ -7,26 +7,18 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import mx.uady.sicei.exception.NotFoundException;
-import mx.uady.sicei.model.Alumno;
-import mx.uady.sicei.model.Profesor;
 import mx.uady.sicei.model.Tutoria;
 import mx.uady.sicei.model.TutoriaLlave;
 import mx.uady.sicei.model.request.TutoriaRequest;
-import mx.uady.sicei.repository.AlumnoRepository;
-import mx.uady.sicei.repository.ProfesorRepository;
 import mx.uady.sicei.repository.TutoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
- 
+
 @Service
 public class TutoriaService {
 
   @Autowired
   private TutoriaRepository tutoriaRepository;
-  @Autowired
-  private AlumnoRepository alumnoRepository;
-  @Autowired
-  private ProfesorRepository profesorRepository;
 
   public List<Tutoria> getTutorias() {
     List<Tutoria> tutorias = new LinkedList<>();
@@ -46,18 +38,18 @@ public class TutoriaService {
     return tutoriaEncontrada.get();
   }
 
-  public List<Tutoria> getTutoriaByIdAlumno(Integer alumnoId) {
+  public List<Tutoria> getTutoriaByIdAlumno(Integer idAlumno) {
     List<Tutoria> tutorias = new LinkedList<>();
 
-    tutorias = tutoriaRepository.findByAlumnoId(alumnoId);
+    tutorias = tutoriaRepository.findByAlumnoId(idAlumno);
 
     return tutorias;
   }
 
-  public List<Tutoria> getTutoriaByIdProfesor(Integer profesorId) {
+  public List<Tutoria> getTutoriaByIdProfesor(Integer idProfesor) {
     List<Tutoria> tutorias = new LinkedList<>();
 
-    tutorias = tutoriaRepository.findByProfesorId(profesorId);
+    tutorias = tutoriaRepository.findByProfesorId(idProfesor);
 
     return tutorias;
   }
@@ -67,31 +59,16 @@ public class TutoriaService {
 
     Tutoria tutoria = new Tutoria();
 
-    if( !alumnoExiste(request.getId()) ) {
-      throw new NotFoundException("La entidad Alumno no pudo ser encontrada.");
-    }
+    TutoriaLlave tutoriaLlave = new TutoriaLlave();
+    tutoriaLlave.setIdAlumno(request.getId().getIdAlumno());
+    tutoriaLlave.setIdProfesor(request.getId().getIdProfesor());
 
-    if( !profesorExiste(request.getId()) ) {
-      throw new NotFoundException("La entidad Maestro no pudo ser encontrada.");
-    }
 
-    tutoria.setId(request.getId());
+    tutoria.setId(tutoriaLlave);
     tutoria.setHoras(request.getHoras());
     tutoria = tutoriaRepository.save(tutoria);
 
     return tutoria;
-  }
-
-  private boolean alumnoExiste(TutoriaLlave id) {
-    Optional<Alumno> alumnoExiste = alumnoRepository.findById(id.getAlumnoId());
-
-    return alumnoExiste.isPresent();
-  }
-
-  private boolean profesorExiste(TutoriaLlave id) {
-    Optional<Profesor> profesorExiste = profesorRepository.findById(id.getProfesorId());
-
-    return profesorExiste.isPresent();
   }
 
   @Transactional

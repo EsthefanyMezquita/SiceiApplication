@@ -63,20 +63,4 @@ public class UsuarioService {
         throw new NotFoundException();
     }
 
-    public Usuario actualizarUsuario(Integer id, UsuarioRequest request) {
-        Usuario usuario = getUsuario(id);
-    
-        usuario.setPassword(request.getPassword());
-        usuario.setUsuario(request.getUsuario());
-        usuarioRepository.save(usuario);
-    
-        return usuario;
-      }
-
-    public void eliminarUsuario(Integer id) {
-        Usuario usuario = getUsuario(id);
-    
-        usuarioRepository.delete(usuario);
-      }
-
 }
