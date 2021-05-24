@@ -1,0 +1,8 @@
+mx\uady\sicei\rest\AlumnoRest.class
+mx\uady\sicei\SiceiApplication.class
+mx\uady\sicei\model\Profesor.class
+mx\uady\sicei\rest\ProfesorRest.class
+mx\uady\sicei\service\AlumnoService.class
+mx\uady\sicei\service\ProfesorService.class
+mx\uady\sicei\exception\NotFoundException.class
+mx\uady\sicei\model\Alumno.class
