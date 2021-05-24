@@ -38,18 +38,18 @@ public class TutoriaService {
     return tutoriaEncontrada.get();
   }
 
-  public List<Tutoria> getTutoriaByIdAlumno(Integer idAlumno) {
+  public List<Tutoria> getTutoriaByid_alumno(Integer id_alumno) {
     List<Tutoria> tutorias = new LinkedList<>();
 
-    tutorias = tutoriaRepository.findByAlumnoId(idAlumno);
+    tutorias = tutoriaRepository.findByAlumnoId(id_alumno);
 
     return tutorias;
   }
 
-  public List<Tutoria> getTutoriaByIdProfesor(Integer idProfesor) {
+  public List<Tutoria> getTutoriaByid_profesor(Integer id_profesor) {
     List<Tutoria> tutorias = new LinkedList<>();
 
-    tutorias = tutoriaRepository.findByProfesorId(idProfesor);
+    tutorias = tutoriaRepository.findByProfesorId(id_profesor);
 
     return tutorias;
   }
@@ -60,8 +60,8 @@ public class TutoriaService {
     Tutoria tutoria = new Tutoria();
 
     TutoriaLlave tutoriaLlave = new TutoriaLlave();
-    tutoriaLlave.setIdAlumno(request.getId().getIdAlumno());
-    tutoriaLlave.setIdProfesor(request.getId().getIdProfesor());
+    tutoriaLlave.setid_alumno(request.getId().getid_alumno());
+    tutoriaLlave.setid_profesor(request.getId().getid_profesor());
 
 
     tutoria.setId(tutoriaLlave);

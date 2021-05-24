@@ -13,7 +13,7 @@ import mx.uady.sicei.service.EquipoService;
 
 @RestController
 @RequestMapping("/api")
-public class EquipoRest {
+public class EquipoRest{
 
     @Autowired
     private EquipoService equipoService;

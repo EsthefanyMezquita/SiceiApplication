@@ -8,32 +8,32 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class TutoriaLlave implements Serializable {
 
-  @Column(name = "id_alumno")
-  private Integer idAlumno;
+  @Column(name="id_alumno")
+  private Integer id_alumno;
 
-  @Column(name = "id_profesor")
-  private Integer idProfesor;
+  @Column(name="id_profesor")
+  private Integer id_profesor;
 
   public TutoriaLlave() {}
 
-  public TutoriaLlave(Integer idAlumno, Integer idProfesor) {
-    this.idAlumno = idAlumno;
-    this.idProfesor = idProfesor;
+  public TutoriaLlave(Integer id_alumno, Integer id_profesor) {
+    this.id_alumno = id_alumno;
+    this.id_profesor = id_profesor;
   }
 
-  public void setIdAlumno(Integer idAlumno) {
-    this.idAlumno = idAlumno;
+  public void setid_alumno(Integer id_alumno) {
+    this.id_alumno = id_alumno;
   }
 
-  public Integer getIdAlumno() {
-    return this.idAlumno;
+  public Integer getid_alumno() {
+    return this.id_alumno;
   }
 
-  public void setIdProfesor(Integer idProfesor) {
-    this.idProfesor = idProfesor;
+  public void setid_profesor(Integer id_profesor) {
+    this.id_profesor = id_profesor;
   }
 
-  public Integer getIdProfesor() {
-    return this.idProfesor;
+  public Integer getid_profesor() {
+    return this.id_profesor;
   }
 }

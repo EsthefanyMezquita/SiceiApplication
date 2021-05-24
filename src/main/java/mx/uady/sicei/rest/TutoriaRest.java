@@ -33,8 +33,8 @@ public class TutoriaRest {
   }
 
   @GetMapping("/tutorias/alumnos/{alumnoId}/profesores/{profesorId}")
-  public ResponseEntity<Tutoria> getTutoria(@PathVariable("alumnoId") Integer idAlumno, @PathVariable("profesorId") Integer idProfesor) {
-    TutoriaLlave id = new TutoriaLlave(idAlumno, idProfesor);
+  public ResponseEntity<Tutoria> getTutoria(@PathVariable("alumnoId") Integer id_alumno, @PathVariable("profesorId") Integer id_profesor) {
+    TutoriaLlave id = new TutoriaLlave(id_alumno, id_profesor);
 
     Tutoria tutoria = tutoriaService.getTutoria(id);
 
@@ -49,8 +49,8 @@ public class TutoriaRest {
   }
 
   @PutMapping("/tutorias/alumnos/{alumnoId}/profesores/{profesorId}")
-  public ResponseEntity<Tutoria> putTutoria(@PathVariable("alumnoId") Integer idAlumno, @PathVariable("profesorId") Integer idProfesor, @RequestBody @Valid TutoriaRequest request) {
-    TutoriaLlave id = new TutoriaLlave(idAlumno, idProfesor);
+  public ResponseEntity<Tutoria> putTutoria(@PathVariable("alumnoId") Integer id_alumno, @PathVariable("profesorId") Integer id_profesor, @RequestBody @Valid TutoriaRequest request) {
+    TutoriaLlave id = new TutoriaLlave(id_alumno, id_profesor);
 
     Tutoria tutoriaActualizada = tutoriaService.actualizarTutoria(id, request);
 
@@ -58,8 +58,8 @@ public class TutoriaRest {
   }
 
   @DeleteMapping("/tutorias/alumnos/{alumnoId}/profesores/{profesorId}")
-  public ResponseEntity<Void> deleteTutoria(@PathVariable("alumnoId") Integer idAlumno, @PathVariable("profesorId") Integer idProfesor) {
-    TutoriaLlave id = new TutoriaLlave(idAlumno, idProfesor);
+  public ResponseEntity<Void> deleteTutoria(@PathVariable("alumnoId") Integer id_alumno, @PathVariable("profesorId") Integer id_profesor) {
+    TutoriaLlave id = new TutoriaLlave(id_alumno, id_profesor);
 
     tutoriaService.eliminarTutoria(id);
 

@@ -7,6 +7,7 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.JoinColumn;
 
 import mx.uady.sicei.model.TutoriaLlave;
 import mx.uady.sicei.model.Profesor;
@@ -20,9 +21,11 @@ public class Tutoria {
   private TutoriaLlave id;
 
   @ManyToOne
+  @JoinColumn(name = "id_alumno", referencedColumnName = "id",  insertable = false, updatable = false)
   private Alumno alumno;
 
   @ManyToOne
+  @JoinColumn(name = "id_profesor", referencedColumnName = "id",  insertable = false, updatable = false)
   private Profesor profesor;
 
   @Column(name = "horas")
@@ -57,13 +60,15 @@ public class Tutoria {
       "{" +
       "id:" +
       "{ 'id_alumno':" +
-        this.id.getIdAlumno() +
+        this.id.getid_alumno() +
       "'id_profesor': " +
-        this.id.getIdProfesor() +
+        this.id.getid_profesor() +
       "}" +
       "'horas': " +
       this.horas +
       "}"
     );
   }
+
+
 }

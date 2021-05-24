@@ -1,8 +1,29 @@
-C:\Users\Esthefany\Downloads\tarea-1\src\main\java\mx\uady\sicei\rest\ProfesorRest.java
-C:\Users\Esthefany\Downloads\tarea-1\src\main\java\mx\uady\sicei\model\Profesor.java
-C:\Users\Esthefany\Downloads\tarea-1\src\main\java\mx\uady\sicei\rest\AlumnoRest.java
-C:\Users\Esthefany\Downloads\tarea-1\src\main\java\mx\uady\sicei\model\Alumno.java
-C:\Users\Esthefany\Downloads\tarea-1\src\main\java\mx\uady\sicei\service\AlumnoService.java
-C:\Users\Esthefany\Downloads\tarea-1\src\main\java\mx\uady\sicei\service\ProfesorService.java
-C:\Users\Esthefany\Downloads\tarea-1\src\main\java\mx\uady\sicei\SiceiApplication.java
-C:\Users\Esthefany\Downloads\tarea-1\src\main\java\mx\uady\sicei\exception\NotFoundException.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\service\EquipoService.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\repository\AlumnoRepository.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\model\Tutoria.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\model\Licenciatura.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\model\Request\TutoriaRequest.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\rest\ProfesorRest.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\model\Request\UsuarioRequest.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\repository\ProfesorRepository.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\rest\UsuarioRest.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\model\TutoriaKey.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\exception\NotFoundException.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\model\TutoriaLlave.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\model\Profesor.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\model\Request\ProfesorRequest.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\service\TutoriaService.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\service\UsuarioService.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\rest\AlumnoRest.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\service\ProfesorService.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\repository\EquipoRepository.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\rest\TutoriaRest.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\repository\TutoriaRepository.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\repository\UsuarioRepository.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\model\Alumno.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\service\AlumnoService.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\SiceiApplication.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\model\Equipo.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\rest\EquipoRest.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\model\Request\AlumnoRequest.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\model\Usuario.java
