@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
-import mx.uady.sicei.model.Licenciatura;
+import mx.uady.sicei.model.Carrera;
 
 public class AlumnoRequest {
 
@@ -15,7 +15,7 @@ public class AlumnoRequest {
     private String nombre;
 
     @NotNull
-    private Licenciatura licenciatura;
+    private Carrera carrera;
 
     @Email
     @NotNull
@@ -40,12 +40,12 @@ public class AlumnoRequest {
         this.nombre = nombre;
     }
 
-    public Licenciatura getLicenciatura() {
-        return this.licenciatura;
+    public Carrera getCarrera() {
+        return this.carrera;
     }
 
-    public void setLicenciatura(Licenciatura licenciatura) {
-        this.licenciatura = licenciatura;
+    public void setCarrera(Carrera carrera) {
+        this.carrera = carrera;
     }
 
     public AlumnoRequest nombre(String nombre) {

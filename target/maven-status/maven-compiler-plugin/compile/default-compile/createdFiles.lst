@@ -1,6 +1,7 @@
 mx\uady\sicei\rest\AlumnoRest.class
 mx\uady\sicei\model\Profesor.class
 mx\uady\sicei\repository\AlumnoRepository.class
+mx\uady\sicei\model\Carrera.class
 mx\uady\sicei\SiceiApplication.class
 mx\uady\sicei\rest\ProfesorRest.class
 mx\uady\sicei\model\request\TutoriaRequest.class
@@ -25,5 +26,3 @@ mx\uady\sicei\model\TutoriaLlave.class
 mx\uady\sicei\model\Equipo.class
 mx\uady\sicei\repository\EquipoRepository.class
 mx\uady\sicei\rest\UsuarioRest.class
-mx\uady\sicei\model\Licenciatura.class
-mx\uady\sicei\model\TutoriaKey.class

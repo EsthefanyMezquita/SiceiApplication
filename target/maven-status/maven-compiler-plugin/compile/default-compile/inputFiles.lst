@@ -1,13 +1,12 @@
 C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\service\EquipoService.java
 C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\repository\AlumnoRepository.java
 C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\model\Tutoria.java
-C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\model\Licenciatura.java
 C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\model\Request\TutoriaRequest.java
 C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\rest\ProfesorRest.java
 C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\model\Request\UsuarioRequest.java
+C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\model\Carrera.java
 C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\repository\ProfesorRepository.java
 C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\rest\UsuarioRest.java
-C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\model\TutoriaKey.java
 C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\exception\NotFoundException.java
 C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\model\TutoriaLlave.java
 C:\Users\Kirbey Garcia\Desktop\SiceiApplication\src\main\java\mx\uady\sicei\model\Profesor.java

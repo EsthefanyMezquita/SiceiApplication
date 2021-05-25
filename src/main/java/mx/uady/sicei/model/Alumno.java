@@ -33,11 +33,8 @@ public class Alumno {
 
     @Column
     @Enumerated(EnumType.STRING)
-    private Licenciatura licenciatura;
+    private Carrera carrera;
 
-    // JOIN Usuario WHERE alumno.id_usario = usuarios.id
-
-    // LAZY vs EAGER
 
     @OneToOne
     @JoinColumn(name = "id_usuario") // alumno.id_usuario
@@ -86,12 +83,12 @@ public class Alumno {
         this.usuario = usuario;
     }
 
-    public Licenciatura getLicenciatura() {
-        return licenciatura;
+    public Carrera getCarrera() {
+        return carrera;
     }
 
-    public void setLicenciatura(Licenciatura licenciatura) {
-        this.licenciatura = licenciatura;
+    public void setCarrera(Carrera carrera) {
+        this.carrera = carrera;
     }
 
     public Usuario getUsuario() {

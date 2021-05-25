@@ -55,7 +55,7 @@ public class AlumnoService {
         Alumno alumno = new Alumno();
 
         alumno.setNombre(request.getNombre());
-        alumno.setLicenciatura(request.getLicenciatura());
+        alumno.setCarrera(request.getCarrera());
 
         // if(!validarEquipo(request.getEquipo()).present){
         // throw new NotFoundException()
@@ -89,7 +89,7 @@ public class AlumnoService {
 
         Alumno alumnoEncontrado = getAlumno(id);
 
-        alumnoEncontrado.setLicenciatura(request.getLicenciatura());
+        alumnoEncontrado.setCarrera(request.getCarrera());
         alumnoEncontrado.setNombre(request.getNombre());
         // alumnoEncontrado.setEquipo();
 
