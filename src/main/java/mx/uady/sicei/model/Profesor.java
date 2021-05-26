@@ -62,9 +62,4 @@ public class Profesor {
         this.horas = horas;
     }
 
-    @Override
-    public String toString() {
-        return "{" + " id='" + getId() + "'" + ", nombre='" + getNombre() + "'" + ", horas='" + getHoras() + "'" + "}";
-    }
-
 }

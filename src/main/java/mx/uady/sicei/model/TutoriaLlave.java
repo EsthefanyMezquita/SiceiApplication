@@ -21,19 +21,19 @@ public class TutoriaLlave implements Serializable {
     this.id_profesor = id_profesor;
   }
 
-  public void setid_alumno(Integer id_alumno) {
+  public void setIdAlumno(Integer id_alumno) {
     this.id_alumno = id_alumno;
   }
 
-  public Integer getid_alumno() {
+  public Integer getIdAlumno() {
     return this.id_alumno;
   }
 
-  public void setid_profesor(Integer id_profesor) {
+  public void setIdProfesor(Integer id_profesor) {
     this.id_profesor = id_profesor;
   }
 
-  public Integer getid_profesor() {
+  public Integer getIdProfesor() {
     return this.id_profesor;
   }
 }

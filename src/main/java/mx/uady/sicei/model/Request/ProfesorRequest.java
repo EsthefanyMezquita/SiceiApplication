@@ -5,7 +5,7 @@ import javax.validation.constraints.Size;
 
 public class ProfesorRequest {
     
-    @NotEmpty
+    @NotEmpty(message = "El nombre no puede estar vacío.")
     @Size(min = 1, max = 255)
     private String nombre;
 
@@ -44,10 +44,4 @@ public class ProfesorRequest {
         this.horas = horas;
         return this;
     }
-
-    @Override
-    public String toString() {
-        return "{" + " nombre='" + getNombre() + "'" + "}";
-    }
-
 }

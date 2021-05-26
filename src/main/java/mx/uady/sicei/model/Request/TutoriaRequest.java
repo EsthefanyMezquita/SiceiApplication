@@ -31,9 +31,4 @@ public class TutoriaRequest {
   public void setHoras(Integer horas) {
     this.horas = horas;
   }
-
-  @Override
-  public String toString() {
-    return ( "{" + this.getId().getAlumnoId() + "," + this.getId().getProfesorId() + "," + this.horas + "}");
-  }
 }

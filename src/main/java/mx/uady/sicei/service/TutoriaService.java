@@ -67,8 +67,8 @@ public class TutoriaService {
 
     Tutoria tutoria = new Tutoria();
 
-    Alumno alumno = alumnoExist(request.getId().getAlumnoId());
-    Profesor profesor = profesorExist(request.getId().getProfesorId());
+    Alumno alumno = this.alumnoExist(request.getId().getIdAlumno());
+    Profesor profesor = this.profesorExist(request.getId().getIdProfesor());
 
     tutoria.setId(request.getId());
     tutoria.setAlumno(alumno);
