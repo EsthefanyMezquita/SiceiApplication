@@ -1,6 +1,8 @@
 package mx.uady.sicei.model.request;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 import mx.uady.sicei.model.TutoriaLlave;
 
@@ -10,14 +12,9 @@ public class TutoriaRequest {
   private TutoriaLlave id;
 
   @NotNull
+  @Max(2)
+  @Positive
   private Integer horas;
-
-  public TutoriaRequest(){}
-
-  public TutoriaRequest(TutoriaLlave id, Integer horas){
-    this.id = id;
-    this.horas = horas;
-  }
 
   public TutoriaLlave getId() {
     return id;
@@ -33,5 +30,10 @@ public class TutoriaRequest {
 
   public void setHoras(Integer horas) {
     this.horas = horas;
+  }
+
+  @Override
+  public String toString() {
+    return ( "{" + this.getId().getAlumnoId() + "," + this.getId().getProfesorId() + "," + this.horas + "}");
   }
 }

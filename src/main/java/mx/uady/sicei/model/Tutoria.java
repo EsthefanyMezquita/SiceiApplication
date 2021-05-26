@@ -1,31 +1,28 @@
 package mx.uady.sicei.model;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.JoinColumn;
 
-import mx.uady.sicei.model.TutoriaLlave;
-import mx.uady.sicei.model.Profesor;
-import mx.uady.sicei.model.Alumno;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tutorias")
 public class Tutoria {
 
   @EmbeddedId
+  @JsonIgnore
   private TutoriaLlave id;
 
   @ManyToOne
-  @JoinColumn(name = "id_alumno", referencedColumnName = "id",  insertable = false, updatable = false)
+  @JoinColumn(name="id_alumno", insertable = false, updatable = false)
   private Alumno alumno;
 
   @ManyToOne
-  @JoinColumn(name = "id_profesor", referencedColumnName = "id",  insertable = false, updatable = false)
+  @JoinColumn(name="id_profesor", insertable = false, updatable = false)
   private Profesor profesor;
 
   @Column(name = "horas")
@@ -54,21 +51,24 @@ public class Tutoria {
     this.horas = horas;
   }
 
-  @Override
-  public String toString() {
-    return (
-      "{" +
-      "id:" +
-      "{ 'id_alumno':" +
-        this.id.getid_alumno() +
-      "'id_profesor': " +
-        this.id.getid_profesor() +
-      "}" +
-      "'horas': " +
-      this.horas +
-      "}"
-    );
+  public Alumno getAlumno() {
+    return this.alumno;
   }
 
+  public void setAlumno(Alumno alumno) {
+    this.alumno = alumno;
+  }
 
+  public Profesor getProfesor() {
+    return this.profesor;
+  }
+
+  public void setProfesor(Profesor profesor) {
+    this.profesor = profesor;
+  }
+
+  @Override
+  public String toString() {
+    return ( "{" + this.getAlumno() + "," + this.getProfesor() + "," + this.horas + "}");
+  }
 }
