@@ -31,8 +31,9 @@ public class UsuarioRest {
 
     @PostMapping("/usuarios")
     public ResponseEntity<Usuario> registrarUsuario(@RequestBody UsuarioRequest request) {
-        Usuario u = usuarioService.crear(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(u);
+        //Usuario usuario = usuarioService.crear(request);
+        //return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
     }
 
     @GetMapping("/usuarios/{id}")
