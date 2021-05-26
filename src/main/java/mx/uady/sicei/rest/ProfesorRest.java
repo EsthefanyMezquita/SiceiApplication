@@ -43,9 +43,6 @@ public class ProfesorRest {
     @PostMapping("/profesores") // POST api/profesores
     public ResponseEntity<Profesor> postProfesores(@RequestBody @Valid ProfesorRequest request) throws URISyntaxException {
 
-        // RequestBody le indica a Java que estamos esperando un request que cumpla con
-        // los campos del Objeto AlumnoRequest
-
         Profesor profesor = profesorService.crearProfesor(request);
 
         // 201 Created
@@ -53,14 +50,14 @@ public class ProfesorRest {
         return ResponseEntity.created(new URI("/profesores/" + profesor.getId())).body(profesor);
     }
 
-    @PutMapping("/profesores/{nombre}") // PUT api/profesores/Naomi
-    public ResponseEntity<Profesor> editarPorfesor(@PathVariable("nombre") String nombre, @RequestBody ProfesorRequest profesor) {
-        return ResponseEntity.ok().body(profesorService.actualizarProfesor(nombre,profesor));
+    @PutMapping("/profesores/{id}") // PUT api/profesores/{id}
+    public ResponseEntity<Profesor> editarPorfesor(@PathVariable("id") Integer id, @RequestBody ProfesorRequest profesor) {
+        return ResponseEntity.ok().body(profesorService.actualizarProfesor(id,profesor));
     }
 
-    @DeleteMapping("/profesores/{nombre}")
-    public ResponseEntity<Profesor> eliminarProfesor(@PathVariable("nombre") String nombre) {
-        return ResponseEntity.ok().body(profesorService.eliminarProfesor(nombre));
+    @DeleteMapping("/profesores/{id}")
+    public ResponseEntity<Profesor> eliminarProfesor(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok().body(profesorService.eliminarProfesor(id));
     }
     
 }

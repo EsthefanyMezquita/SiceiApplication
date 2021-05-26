@@ -40,12 +40,12 @@ public class ProfesorService {
         return profesor;
     }
 
-    public Profesor getProfesor(String nombre) {
-        return profesorRepository.findByNombre(nombre).get(0);//findByIdSerializable(id).get();
+    public Profesor getProfesor(Integer id) {
+        return profesorRepository.findById(id).get();//findByIdSerializable(id).get();
     }
 
-    public Profesor actualizarProfesor(String nombre, ProfesorRequest profesor){
-        Profesor profesorAct = getProfesor(nombre);
+    public Profesor actualizarProfesor(Integer id, ProfesorRequest profesor) {
+        Profesor profesorAct = getProfesor(id);
 
         Profesor profesorReference = profesorRepository.findByNombre(profesorAct.getNombre()).get(0);
         profesorReference = setProfesorNewValues(profesorReference, profesor);
@@ -58,19 +58,10 @@ public class ProfesorService {
         return profesorRef;
     }
 
-    public Profesor eliminarProfesor(String nombre){
-        Profesor profeEliminar = profesorRepository.findByNombre(nombre).get(0);
-        profesorRepository.deleteById(profeEliminar.getId());;
+    public Profesor eliminarProfesor(Integer id){
+        Profesor profeEliminar = profesorRepository.findById(id).get();
+        profesorRepository.deleteById(profeEliminar.getId());
         return profeEliminar;
     }
-
-
-    /*
-     * public Video deleteVideo(String id) { Video videoToEliminate =
-     * videoRepository.findByIdSerializable(id).get();
-     * UserUtil.checkUserAuthorization(UserUtil.getActualSession(),
-     * videoToEliminate); videoRepository.deleteVideoByIdSerializable(id); return
-     * videoToEliminate; }
-     */
 
 }
