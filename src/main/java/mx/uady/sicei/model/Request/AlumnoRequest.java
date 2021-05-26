@@ -69,9 +69,4 @@ public class AlumnoRequest {
         this.equipo = equipo;
     }
 
-    @Override
-    public String toString() {
-        return "{" + " nombre='" + getNombre() + "'" + "}";
-    }
-
 }
