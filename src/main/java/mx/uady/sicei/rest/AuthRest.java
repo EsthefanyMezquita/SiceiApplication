@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jdk.internal.net.http.Response;
+import org.springframework.http.ResponseEntity;
 import mx.uady.sicei.model.Alumno;
 import mx.uady.sicei.model.request.UsuarioRequest;
 import mx.uady.sicei.model.request.AuthRequest;
@@ -32,7 +32,7 @@ public class AuthRest {
     private AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<Alumno> postRegister(@RequestBody @Valid AuthRest request)throws URISyntaxException {
+    public ResponseEntity<Alumno> postRegister(@RequestBody @Valid AuthRequest request)throws URISyntaxException {
         Alumno alumno = authService.registrarAlumno(request);
         return ResponseEntity.created(new URI("alumnos" + alumno.getId())).body(alumno);
     }

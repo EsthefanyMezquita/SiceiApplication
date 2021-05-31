@@ -25,6 +25,9 @@ public class AuthRequest {
     private String carrera;
     
     private Integer equipo;
+    
+    public AuthRequest() {
+    }
 
     public String getUsuario() {
         return usuario;

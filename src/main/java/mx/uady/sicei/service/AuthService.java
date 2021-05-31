@@ -71,7 +71,7 @@ public class AuthService{
         alumno.setNombre(request.getNombre());
 
         if(request.getEquipo()!=null && request.getEquipo()>0){
-            Equipo equipo = equipoRepository.findById(request.getEquipo());
+            Equipo equipo = equipoRepository.findById(request.getEquipo()).get();
             alumno.setEquipo(equipo);
         }
 
@@ -80,9 +80,9 @@ public class AuthService{
             alumno.setCarrera(carrera);
         }
 
-        alumno.setUsuario(uusuarioSave);
+        alumno.setUsuario(usuarioSave);
         alumno = alumnoRepository.save(alumno);
-        return alumno
+        return alumno;
     }
 
     @Transactional
@@ -101,7 +101,7 @@ public class AuthService{
 
     @Transactional
     public void logout(Integer id){
-        Usuario usuario = usuarioRepository.findById(id);
+        Usuario usuario = usuarioRepository.findById(id).get();
         usuario.setToken(null);
         usuarioRepository.save(usuario);
     }
