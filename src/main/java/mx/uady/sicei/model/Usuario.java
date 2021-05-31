@@ -7,6 +7,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -18,10 +22,14 @@ public class Usuario {
     private Integer id;
     
     @Column(name = "usuario")
+    @NotEmpty
+    @NotNull
     private String usuario;
 
     @Column
     @JsonIgnore
+    @Pattern(regexp="^(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$&*]).{8,}$",message="La contrasea debe tener al menos 8 caracteres, una letra, un numero y un simbolo especial")
+    @NotEmpty
     private String password;
 
     @Column

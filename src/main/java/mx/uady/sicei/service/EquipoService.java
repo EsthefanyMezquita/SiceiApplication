@@ -22,5 +22,8 @@ public class EquipoService {
 
         return equipos;
     }
-    
+
+    public Equipo getEquipo(Integer id) {
+        return equipoRepository.findById(id).get();
+    }
 }

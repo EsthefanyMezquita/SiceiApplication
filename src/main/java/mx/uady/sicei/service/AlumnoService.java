@@ -60,7 +60,6 @@ public class AlumnoService {
         // if(!validarEquipo(request.getEquipo()).present){
         // throw new NotFoundException()
         // }
-
         // alumno.setEquipo(request.getEquipo());
 
         Usuario usuario = new Usuario();
@@ -86,26 +85,19 @@ public class AlumnoService {
     @Transactional
     public Alumno actualizarAlumno(Integer id, AlumnoRequest request) {
         // Validar equipo
-
         Alumno alumnoEncontrado = getAlumno(id);
-
         alumnoEncontrado.setCarrera(request.getCarrera());
         alumnoEncontrado.setNombre(request.getNombre());
         // alumnoEncontrado.setEquipo();
-
         alumnoRepository.save(alumnoEncontrado);
-
         return alumnoEncontrado;
     }
 
     @Transactional
     public void eliminarAlumno(Integer id) {
         Usuario usuarioEliminar = getAlumno(id).getUsuario();
-
         // Validar que no existan tutorias
-
         usuarioRepository.delete(usuarioEliminar);
-
         alumnoRepository.deleteById(id);
     }
 
