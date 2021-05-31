@@ -59,9 +59,11 @@ public class AuthService{
         /*Regex para contraseñas del patron solicitado, el maximo de caracteres es 20, se puede modificar
         ^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,}$
         ^(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$&*]).{8,}$
+        ^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$&*]).{8,}$
         El patron anterior incluye mayusculas y minusculas, para uno solo de minusculas:
         ^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[a-z])\S{8,}$
         ^(?=.*[a-z])(?=.*[!@#$&*]).{8,}$
+        ^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$&*]).{8,}$
         */
 
         Usuario usuarioSave = usuarioRepository.save(usuarioCreate);

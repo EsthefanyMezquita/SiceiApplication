@@ -18,7 +18,7 @@ public class AuthRequest {
     private String nombre;
 
     @NotNull
-    @Pattern(regexp="^(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$&*]).{8,}$",message="La contrasea debe tener al menos 8 caracteres, una letra, un numero y un simbolo especial")
+    @Pattern(regexp="^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$&*]).{8,}$",message="La contrasea debe tener al menos 8 caracteres, una letra, un numero y un simbolo especial")
     @NotEmpty
     private String password;
  
