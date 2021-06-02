@@ -2,6 +2,7 @@ package mx.uady.sicei.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -26,7 +27,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .httpBasic().disable() // Authorization: Basic base64(usuario:contrasena) x.x
             .authorizeRequests()
-                .antMatchers("/login", "/register","/logout").permitAll()
+                .antMatchers(HttpMethod.POST, "/login", "/register","/logout/**").permitAll()
                 .anyRequest().authenticated()
             .and()
                 .addFilterBefore(tokenFilter, BasicAuthenticationFilter.class);
