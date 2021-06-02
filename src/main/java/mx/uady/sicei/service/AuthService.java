@@ -1,6 +1,9 @@
 package mx.uady.sicei.service;
 
+import java.util.Optional;
 import java.util.UUID;
+
+import javax.validation.constraints.Null;
 
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +23,7 @@ import mx.uady.sicei.repository.AlumnoRepository;
 import mx.uady.sicei.repository.UsuarioRepository;
 import mx.uady.sicei.repository.EquipoRepository;
 import mx.uady.sicei.repository.TutoriaRepository;
+import mx.uady.sicei.exception.NotFoundException;
 
 @Service
 public class AuthService{
@@ -41,20 +45,20 @@ public class AuthService{
     @Transactional
     public Alumno registrarAlumno(AuthRequest request){
         Usuario usuarioCreate = new Usuario();
-
         usuarioCreate.setUsuario(request.getUsuario());
         usuarioCreate.setPassword(passwordEncoder.encode(request.getPassword()));
         String token = UUID.randomUUID().toString();
         usuarioCreate.setToken(token);
 
-        /*
-        POST /register. Crea un Alumno con todo y Usuario, de igual 
-        forma crea el Token (UUID). Recibe los campos olbigatorios de Alumno + Contraseña. 
-        El usuario del sistema es la matricula del alumno. Validar que no exista el Alumno 
-        ni el Usuario. La contraseña debe mayor de 8 caracteres y contener letras, numeros y 
-        al menos 1 caracter especial. Guardar la contraseña usando Bcrypt (no guardar 
-        la contraseña en texto plano).
-        */
+        Usuario userExistente = usuarioRepository.findByUsuario(usuarioCreate.getUsuario());
+
+        if (!(userExistente ==  null)) {
+            throw new NotFoundException("Usuario existente");
+        }
+
+        /* if(!profesorExist.isPresent()) {
+            throw new NotFoundException("El profesor no pudo ser encontrado");
+          } */
 
         /*Regex para contraseñas del patron solicitado, el maximo de caracteres es 20, se puede modificar
         ^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,}$
