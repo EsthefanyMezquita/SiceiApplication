@@ -1,4 +1,4 @@
-package mx.uady.sicei.service;
+package mx.uady.sicei.rest;
 
 import javax.validation.Valid;
 import java.net.URI;
