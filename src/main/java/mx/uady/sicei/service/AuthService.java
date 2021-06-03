@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import mx.uady.sicei.exception.*;
+//import mx.uady.sicei.exception.*;
 import mx.uady.sicei.model.Alumno;
 import mx.uady.sicei.model.Usuario;
 import mx.uady.sicei.model.Equipo;
@@ -24,6 +24,7 @@ import mx.uady.sicei.repository.UsuarioRepository;
 import mx.uady.sicei.repository.EquipoRepository;
 import mx.uady.sicei.repository.TutoriaRepository;
 import mx.uady.sicei.exception.NotFoundException;
+import mx.uady.sicei.exception.Unauthorized;
 
 @Service
 public class AuthService{
@@ -53,7 +54,7 @@ public class AuthService{
         Usuario userExistente = usuarioRepository.findByUsuario(usuarioCreate.getUsuario());
 
         if (!(userExistente ==  null)) {
-            throw new NotFoundException("Usuario existente");
+            throw new Unauthorized();
         }
 
         /* if(!profesorExist.isPresent()) {
