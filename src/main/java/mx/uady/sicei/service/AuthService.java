@@ -23,8 +23,8 @@ import mx.uady.sicei.repository.AlumnoRepository;
 import mx.uady.sicei.repository.UsuarioRepository;
 import mx.uady.sicei.repository.EquipoRepository;
 import mx.uady.sicei.repository.TutoriaRepository;
-import mx.uady.sicei.exception.NotFoundException;
-import mx.uady.sicei.exception.Unauthorized;
+import mx.uady.sicei.exception.ForbiddenException;
+import mx.uady.sicei.exception.UnauthorizedException;
 
 @Service
 public class AuthService{
@@ -54,7 +54,7 @@ public class AuthService{
         Usuario userExistente = usuarioRepository.findByUsuario(usuarioCreate.getUsuario());
 
         if (!(userExistente ==  null)) {
-            throw new Unauthorized();
+            throw new UnauthorizedException("El usuario ingresado ya existe");
         }
 
         /* if(!profesorExist.isPresent()) {
@@ -95,7 +95,7 @@ public class AuthService{
         Usuario usuario = usuarioRepository.findByUsuario(request.getUsuario());
 
         if(usuario==null || !passwordEncoder.matches(request.getPassword(), usuario.getPassword())){
-            throw new NotFoundException();
+            throw new ForbiddenException("El usuario o la contraseña no coinciden con los registros");
         }
 
         String token = UUID.randomUUID().toString();
