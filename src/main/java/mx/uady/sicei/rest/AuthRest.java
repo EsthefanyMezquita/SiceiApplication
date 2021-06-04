@@ -40,7 +40,7 @@ public class AuthRest {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> postLogin(@RequestBody @Valid UsuarioRequest request) throws URISyntaxException {
+    public ResponseEntity<String> postLogin(@RequestBody UsuarioRequest request) throws URISyntaxException {
         String token = authService.login(request);
         return ResponseEntity.ok(token); 
     }
