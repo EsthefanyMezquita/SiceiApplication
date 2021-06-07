@@ -43,6 +43,12 @@ public class AuthService{
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**
+    * Este es el metodo que sirve para registrar a un nuevo alumno
+    * @param request AuthRequest, el request del formulario de registro de alumno
+    * @return alumno
+    *
+    */
     @Transactional
     public Alumno registrarAlumno(AuthRequest request){
         Usuario usuarioCreate = new Usuario();
@@ -56,20 +62,6 @@ public class AuthService{
         if (!(userExistente ==  null)) {
             throw new UnauthorizedException("El usuario ingresado ya existe");
         }
-
-        /* if(!profesorExist.isPresent()) {
-            throw new NotFoundException("El profesor no pudo ser encontrado");
-          } */
-
-        /*Regex para contraseñas del patron solicitado, el maximo de caracteres es 20, se puede modificar
-        ^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,}$
-        ^(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$&*]).{8,}$
-        ^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$&*]).{8,}$
-        El patron anterior incluye mayusculas y minusculas, para uno solo de minusculas:
-        ^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[a-z])\S{8,}$
-        ^(?=.*[a-z])(?=.*[!@#$&*]).{8,}$
-        ^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$&*]).{8,}$
-        */
 
         Usuario usuarioSave = usuarioRepository.save(usuarioCreate);
         Alumno alumno = new Alumno();
@@ -90,6 +82,12 @@ public class AuthService{
         return alumno;
     }
 
+    /**
+    * Este es el metodo de inicio de sesión
+    * @param request UsuarioRequest, el request del formulario login
+    * @return token
+    *
+    */
     @Transactional
     public String login(UsuarioRequest request){
         Usuario usuario = usuarioRepository.findByUsuario(request.getUsuario());
@@ -104,6 +102,11 @@ public class AuthService{
         return token;
     }
 
+    /**
+    * Este es el metodo para cerrar sesión
+    * @param id Intger, id del alumno 
+    *
+    */
     @Transactional
     public void logout(Integer id){
         Usuario usuario = usuarioRepository.findById(id).get();

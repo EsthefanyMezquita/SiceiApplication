@@ -15,6 +15,11 @@ public class EquipoService {
     @Autowired
     private EquipoRepository equipoRepository;
 
+    /**
+    * Este es el metodo que devuelve los equipos
+    * @return equipos
+    *
+    */
     public List<Equipo> getEquipos() {
 
         List<Equipo> equipos = new LinkedList<>();
@@ -23,6 +28,12 @@ public class EquipoService {
         return equipos;
     }
 
+    /**
+    * Este es el metodo que devuelve el equpo por alumno
+    * @param request Intger, id del alumno 
+    * @return void
+    *
+    */
     public Equipo getEquipo(Integer id) {
         return equipoRepository.findById(id).get();
     }

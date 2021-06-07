@@ -35,6 +35,12 @@ public class AlumnoService {
         return alumnos;
     }
 
+    /**
+    * Este es el metodo que devuelve el alumno
+    * @param id Integer, id del alumno 
+    * @return void
+    *
+    */
     public Alumno getAlumno(Integer id) {
         Optional<Alumno> alumno = alumnoRepository.findById(id);
 
@@ -45,10 +51,22 @@ public class AlumnoService {
         return alumno.get();
     }
 
+    /**
+    * Este es el metodo que busca al alumno por nombre
+    * @param nombre String, nombre del alumno
+    * @return nombre del alumno
+    *
+    */
     public List<Alumno> buscarAlumnos(String nombre) {
         return alumnoRepository.findByNombreContaining(nombre);
     }
 
+    /**
+    * Este es el metodo que crea un nuevo alumno
+    * @param request AlumnoRequest, el request del formulario de alumno
+    * @return alumno
+    *
+    */
     @Transactional
     public Alumno crearAlumno(AlumnoRequest request) {
 
@@ -56,11 +74,6 @@ public class AlumnoService {
 
         alumno.setNombre(request.getNombre());
         alumno.setCarrera(request.getCarrera());
-
-        // if(!validarEquipo(request.getEquipo()).present){
-        // throw new NotFoundException()
-        // }
-        // alumno.setEquipo(request.getEquipo());
 
         Usuario usuario = new Usuario();
 
@@ -77,11 +90,13 @@ public class AlumnoService {
         return alumno;
     }
 
-    // public Optional validarEquipo(Integer equipoID) {
-    // Optional<Equipo> op = equipoRepository.findById(equipoID);
-    // return op;
-    // }
-
+    /**
+    * Este es el metodo que actualiza al alumno
+    * @param id Integer, id del alumno
+    * @param request AlumnoRequest, el request del formulario de alumno
+    * @return alumnoEncontrado
+    *
+    */
     @Transactional
     public Alumno actualizarAlumno(Integer id, AlumnoRequest request) {
         // Validar equipo
@@ -93,6 +108,12 @@ public class AlumnoService {
         return alumnoEncontrado;
     }
 
+    /**
+    * Este es el metodo que elimina un alumno
+    * @param id Intger, id del alumno
+    * @return void 
+    *
+    */
     @Transactional
     public void eliminarAlumno(Integer id) {
         Usuario usuarioEliminar = getAlumno(id).getUsuario();
