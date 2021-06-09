@@ -1,14 +1,29 @@
 package mx.uady.sicei.service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 
 import javax.validation.constraints.Null;
 
 import org.springframework.transaction.annotation.Transactional;
+
+//import io.jsonwebtoken.lang.Objects;
+import java.util.Objects;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+//Seguridad con JWT
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 //import mx.uady.sicei.exception.*;
 import mx.uady.sicei.model.Alumno;
@@ -23,11 +38,11 @@ import mx.uady.sicei.repository.AlumnoRepository;
 import mx.uady.sicei.repository.UsuarioRepository;
 import mx.uady.sicei.repository.EquipoRepository;
 import mx.uady.sicei.repository.TutoriaRepository;
-import mx.uady.sicei.exception.ForbiddenException;
+import mx.uady.sicei.exception.NotFoundException;
 import mx.uady.sicei.exception.UnauthorizedException;
 
 @Service
-public class AuthService{
+public class AuthService implements UserDetailsService{
     @Autowired
     private AlumnoRepository alumnoRepository;
 
@@ -43,12 +58,16 @@ public class AuthService{
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    /**
-    * Este es el metodo que sirve para registrar a un nuevo alumno
-    * @param request AuthRequest, el request del formulario de registro de alumno
-    * @return alumno
-    *
-    */
+    @Autowired
+	private AuthenticationManager authenticationManager;
+
+    @Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		Usuario user = usuarioRepository.findByUsuario(username);
+
+        return new User(user.getUsuario(), user.getPassword(), new ArrayList<>());
+	}
+
     @Transactional
     public Alumno registrarAlumno(AuthRequest request){
         Usuario usuarioCreate = new Usuario();
@@ -60,8 +79,22 @@ public class AuthService{
         Usuario userExistente = usuarioRepository.findByUsuario(usuarioCreate.getUsuario());
 
         if (!(userExistente ==  null)) {
-            throw new UnauthorizedException("El usuario ingresado ya existe");
+            throw new UnauthorizedException();
         }
+
+        /* if(!profesorExist.isPresent()) {
+            throw new NotFoundException("El profesor no pudo ser encontrado");
+          } */
+
+        /*Regex para contraseñas del patron solicitado, el maximo de caracteres es 20, se puede modificar
+        ^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,}$
+        ^(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$&*]).{8,}$
+        ^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$&*]).{8,}$
+        El patron anterior incluye mayusculas y minusculas, para uno solo de minusculas:
+        ^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[a-z])\S{8,}$
+        ^(?=.*[a-z])(?=.*[!@#$&*]).{8,}$
+        ^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$&*]).{8,}$
+        */
 
         Usuario usuarioSave = usuarioRepository.save(usuarioCreate);
         Alumno alumno = new Alumno();
@@ -82,18 +115,12 @@ public class AuthService{
         return alumno;
     }
 
-    /**
-    * Este es el metodo de inicio de sesión
-    * @param request UsuarioRequest, el request del formulario login
-    * @return token
-    *
-    */
     @Transactional
     public String login(UsuarioRequest request){
         Usuario usuario = usuarioRepository.findByUsuario(request.getUsuario());
 
         if(usuario==null || !passwordEncoder.matches(request.getPassword(), usuario.getPassword())){
-            throw new ForbiddenException("El usuario o la contraseña no coinciden con los registros");
+            throw new NotFoundException();
         }
 
         String token = UUID.randomUUID().toString();
@@ -102,15 +129,24 @@ public class AuthService{
         return token;
     }
 
-    /**
-    * Este es el metodo para cerrar sesión
-    * @param id Intger, id del alumno 
-    *
-    */
     @Transactional
     public void logout(Integer id){
         Usuario usuario = usuarioRepository.findById(id).get();
         usuario.setToken(null);
         usuarioRepository.save(usuario);
     }
+
+    /* @Transactional
+    public void authenticate(String username, String password) throws Exception {
+		Objects.requireNonNull(username);
+		Objects.requireNonNull(password);
+
+		try {
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+		} catch (DisabledException e) {
+			throw new Exception("USER_DISABLED", e);
+		} catch (BadCredentialsException e) {
+			throw new Exception("INVALID_CREDENTIALS", e);
+		}
+	} */
 }

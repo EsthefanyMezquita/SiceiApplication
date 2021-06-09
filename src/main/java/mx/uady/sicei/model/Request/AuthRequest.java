@@ -1,13 +1,18 @@
 package mx.uady.sicei.model.request;
 
 import javax.validation.constraints.NotNull;
+
+import java.io.Serializable;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.Pattern;
 
 import mx.uady.sicei.model.Alumno;
 
-public class AuthRequest {
+public class AuthRequest implements Serializable {
+
+    private static final long serialVersionUID = 5926468583005150707L;
 
     @NotEmpty
     @NotNull
@@ -27,6 +32,11 @@ public class AuthRequest {
     private Integer equipo;
     
     public AuthRequest() {
+    }
+
+    public AuthRequest(String usuario, String password) {
+        this.setUsuario(usuario);
+        this.setPassword(password);
     }
 
     public String getUsuario() {
