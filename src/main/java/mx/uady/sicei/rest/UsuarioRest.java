@@ -33,6 +33,21 @@ public class UsuarioRest {
         return ResponseEntity.ok(usuario);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<Jwt> loginUsuario(@RequestBody @Valid LoginRequest request) {
+        String token = usuarioService.loginUser(request);
+
+        return ResponseEntity.ok().body(new Jwt(token));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logoutUsuario(HttpServletRequest request, HttpServletResponse response){
+        Usuario usuario = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        usuarioService.logoutUser(usuario);
+
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/usuarios")
     public ResponseEntity<List<Usuario>> obtenerUsuario() {
         List<Usuario> usuarios = usuarioService.getUsuarios();

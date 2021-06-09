@@ -25,10 +25,44 @@ public class UsuarioService {
     @Autowired
     private AlumnoRepository alumnoRepository;
 
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
     @Transactional //(readOnly = true)
     public List<Usuario> getUsuarios() {
         return usuarioRepository.findAll();
     }
+
+    public Alumno usuarioActivo(Usuario user) {
+        Alumno usuarioActivo = this.alumnoRepository.findByUsuario_Id(user.getId());
+
+        if (usuarioActivo == null) {
+            throw new NotFoundException("No se encontro el alumno buscado");
+        }
+        return usuarioActivo;
+    }
+
+    public String loginUser(LoginRequest request) {
+        Usuario usuarioLoggeado = usuarioRepository.findByUsuario(request.getMatricula());
+
+        if(usuarioLoggeado.equals(null)){
+            throw new NotFoundException("Usuario incorrecto");
+        }
+
+        //Hay que agregar un metodo para contraseña incorrecta
+
+        String token = jwtTokenUtil.generateToken(usuarioLoggeado);
+        usuarioLoggeado.setToken(token);
+        usuarioRepository.save(usuarioLoggeado);
+
+        return token;
+    }
+
+    @Transactional
+    public void logoutUser(Usuario loggedUser){
+        loggedUser.setToken(null);
+        usuarioRepository.save(loggedUser);
+    } 
 
     @Transactional // Crear una transaccion
     public Usuario crear(UsuarioRequest request) {
