@@ -65,16 +65,29 @@ public class AuthService implements UserDetailsService{
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Usuario user = usuarioRepository.findByUsuario(username);
 
-        return new User(user.getUsuario(), user.getPassword(), new ArrayList<>());
+        if (user == null) {
+			throw new UsernameNotFoundException("User not found with username: " + username);
+		}
+		return new org.springframework.security.core.userdetails.
+            User(user.getUsuario(), user.getPassword(), new ArrayList<>());
+        //return new User(user.getUsuario(), user.getPassword(), new ArrayList<>());
 	}
 
+    /* @Transactional
+    public UsuarioRepository save(AuthRequest authRequest) {
+		Usuario newUser = new Usuario();
+        newUser.setUsuario(authRequest.getUsuario());
+		newUser.setPassword(passwordEncoder.encode(authRequest.getPassword()));
+		return usuarioRepository.save(newUser);
+	} */
+
     @Transactional
-    public Alumno registrarAlumno(AuthRequest request){
+    public Alumno registrarAlumno(AuthRequest request) {
         Usuario usuarioCreate = new Usuario();
         usuarioCreate.setUsuario(request.getUsuario());
         usuarioCreate.setPassword(passwordEncoder.encode(request.getPassword()));
-        String token = UUID.randomUUID().toString();
-        usuarioCreate.setToken(token);
+        // String token = UUID.randomUUID().toString();
+        // usuarioCreate.setToken(token);
 
         Usuario userExistente = usuarioRepository.findByUsuario(usuarioCreate.getUsuario());
 
@@ -135,18 +148,4 @@ public class AuthService implements UserDetailsService{
         usuario.setToken(null);
         usuarioRepository.save(usuario);
     }
-
-    /* @Transactional
-    public void authenticate(String username, String password) throws Exception {
-		Objects.requireNonNull(username);
-		Objects.requireNonNull(password);
-
-		try {
-			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-		} catch (DisabledException e) {
-			throw new Exception("USER_DISABLED", e);
-		} catch (BadCredentialsException e) {
-			throw new Exception("INVALID_CREDENTIALS", e);
-		}
-	} */
 }

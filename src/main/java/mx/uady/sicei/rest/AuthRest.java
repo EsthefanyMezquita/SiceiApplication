@@ -55,22 +55,22 @@ public class AuthRest {
 	private AuthenticationManager authenticationManager;
 
     @PostMapping("/register")
-    public ResponseEntity<Alumno> postRegister(@RequestBody @Valid AuthRequest request)throws URISyntaxException {
-        Alumno alumno = authService.registrarAlumno(request);
-        return ResponseEntity.created(new URI("alumnos" + alumno.getId())).body(alumno);
+    public ResponseEntity<?> postRegister(@RequestBody @Valid AuthRequest request)throws Exception {
+        /* Alumno alumno = authService.registrarAlumno(request);
+        return ResponseEntity.created(new URI("alumnos" + alumno.getId())).body(alumno); */
+        return ResponseEntity.ok(authService.registrarAlumno(request));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> postLogin(@RequestBody AuthRequest request) throws Exception {
+    public ResponseEntity<JwtResponse> postLogin(@RequestBody AuthRequest request) throws Exception {
         //String token = authService.login(request);
 
         authenticate(request.getUsuario(), request.getPassword());
 
 		final UserDetails userDetails = jwtInMemoryUserDetailsService.loadUserByUsername(request.getUsuario());
 		final String token = jwtTokenUtil.generateToken(userDetails);
-        //JwtResponse formatToken = new JwtResponse(token);
 
-		return ResponseEntity.ok(token);
+		return ResponseEntity.ok().body(new JwtResponse(token));
     }
 
     public void authenticate(String username, String password) throws Exception {
