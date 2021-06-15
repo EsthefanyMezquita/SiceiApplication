@@ -1,0 +1,7 @@
+    //Example
+    // Setup mail server
+    properties.setProperty("mail.smtp.host", host); 
+
+    // mail username and password   
+    properties.setProperty("mail.user", "user");                   
+    properties.setProperty("mail.password", "password$$"); 

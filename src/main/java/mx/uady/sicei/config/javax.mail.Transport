@@ -1,0 +1,14 @@
+//Example
+// javax.mail.internet.MimeMessage class is
+// mostly used for abstraction. 
+MimeMessage message = new MimeMessage(session);
+
+// header field of the header.  
+message.setFrom(new InternetAddress(from)); 
+message.addRecipient(Message.RecipientType.TO, 
+                     new InternetAddress(to));  
+message.setSubject("subject");  
+message.setText("Hello, aas is sending email ");
+
+//Example sended Message
+    Transport.send (mensaje);
