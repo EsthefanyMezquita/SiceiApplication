@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -67,14 +68,14 @@ public class AuthRest {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<JwtResponse> postLogin(@RequestBody AuthRequest request) throws Exception {
+    public ResponseEntity<JwtResponse> postLogin(@RequestBody AuthRequest request, @RequestHeader("user-agent") String userAgent) throws Exception {
         //String token = authService.login(request);
 
         authenticate(request.getUsuario(), request.getPassword());
 
 		final UserDetails userDetails = jwtInMemoryUserDetailsService.loadUserByUsername(request.getUsuario());
 		final String token = jwtTokenUtil.generateToken(userDetails);
-        enviarCorreo(request.getEmailCfg(), "Se ha iniciado sesion", "kirbey.garcia19@gmail.com"/*request.getEmail()*/, "Inicio de sesión");
+        enviarCorreo(request.getEmailCfg(), "Se ha iniciado sesion desde: " +userAgent, request.getEmail(), "Inicio de sesión");
 
 		return ResponseEntity.ok().body(new JwtResponse(token));
     }
