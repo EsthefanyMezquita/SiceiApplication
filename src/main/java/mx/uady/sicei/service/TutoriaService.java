@@ -110,11 +110,11 @@ public class TutoriaService {
 
     tutoriaRepository.delete(tutoriaEliminada);
 
-    authService.enviarCorreo("Alumno "+tutoriaEliminada.getAlumno().getNombre()+", su tutoria fue registrada como eliminada. \n Profesor: "+
+    /*authService.enviarCorreo("Alumno "+tutoriaEliminada.getAlumno().getNombre()+", su tutoria fue registrada como eliminada. \n Profesor: "+
     tutoriaEliminada.getProfesor().getNombre()
     +" \n Horas: " + tutoriaEliminada.getHoras().toString(),
     tutoriaEliminada.getAlumno().getUsuario().getEmail(),
-     "Eliminada");
+     "Eliminada");*/
   }
 
   @Transactional

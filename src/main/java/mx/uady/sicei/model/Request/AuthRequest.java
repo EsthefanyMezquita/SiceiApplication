@@ -8,6 +8,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.Pattern;
 
+import mx.uady.sicei.config.EmailConfiguration;
 import mx.uady.sicei.model.Alumno;
 
 public class AuthRequest implements Serializable {
@@ -36,12 +37,15 @@ public class AuthRequest implements Serializable {
     @NotEmpty
     private String email;
     
+    private EmailConfiguration emailCfg;
+
     public AuthRequest() {
     }
 
-    public AuthRequest(String usuario, String password) {
+    public AuthRequest(String usuario, String password, EmailConfiguration emailCgf) {
         this.setUsuario(usuario);
         this.setPassword(password);
+        this.emailCfg = emailCgf;
     }
 
     public String getUsuario() {
@@ -99,6 +103,13 @@ public class AuthRequest implements Serializable {
 
     public void setEmail(String email){
         this.email=email;
+    }
+
+    public EmailConfiguration getEmailCfg(){
+        return emailCfg;
+    }
+    public void setEmailCfg(EmailConfiguration emailCfg){
+        this.emailCfg = emailCfg;
     }
 
     //fin nuevo

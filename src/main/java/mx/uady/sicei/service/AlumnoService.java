@@ -117,8 +117,8 @@ public class AlumnoService {
         //alumnoEncontrado.setEquipo(request.getEquipo());
         //data+=", Equipo: " +alumnoEncontrado.getEquipo();
         alumnoRepository.save(alumnoEncontrado);
-        authService.enviarCorreo("Se actualizó un usuario \n Datos cambiados: \n" + data+ 
-        "\n Datos nuevos:\n"+actualizacion,alumnoEncontrado.getUsuario().getEmail(),"Datos actualizados");
+        /*authService.enviarCorreo("Se actualizó un usuario \n Datos cambiados: \n" + data+ 
+        "\n Datos nuevos:\n"+actualizacion,alumnoEncontrado.getUsuario().getEmail(),"Datos actualizados");*/
         return alumnoEncontrado;
     }
 

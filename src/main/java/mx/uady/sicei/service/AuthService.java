@@ -40,6 +40,7 @@ import mx.uady.sicei.repository.AlumnoRepository;
 import mx.uady.sicei.repository.UsuarioRepository;
 import mx.uady.sicei.repository.EquipoRepository;
 import mx.uady.sicei.repository.TutoriaRepository;
+import mx.uady.sicei.config.EmailConfiguration;
 import mx.uady.sicei.exception.NotFoundException;
 import mx.uady.sicei.exception.UnauthorizedException;
 
@@ -47,7 +48,10 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class AuthService implements UserDetailsService{
@@ -74,11 +78,10 @@ public class AuthService implements UserDetailsService{
 
     private MailSender mailSender;
     
-    @Autowired
+    /*@Autowired
     public AuthService(MailSender mailSender){
         this.mailSender = mailSender;
-    }
-
+    }*/
 
     @Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -105,6 +108,7 @@ public class AuthService implements UserDetailsService{
         Usuario usuarioCreate = new Usuario();
         usuarioCreate.setUsuario(request.getUsuario());
         usuarioCreate.setPassword(passwordEncoder.encode(request.getPassword()));
+        usuarioCreate.setEmail(request.getEmail());
         // String token = UUID.randomUUID().toString();
         // usuarioCreate.setToken(token);
 
@@ -144,8 +148,6 @@ public class AuthService implements UserDetailsService{
 
         alumno.setUsuario(usuarioSave);
         alumno = alumnoRepository.save(alumno);
-		enviarCorreo("El registro se completó con éxito",
-            request.getEmail(),"Completo");
         return alumno;
     }
 
@@ -160,7 +162,7 @@ public class AuthService implements UserDetailsService{
         String token = UUID.randomUUID().toString();
         usuario.setToken(token);
         usuario = usuarioRepository.save(usuario);
-        enviarCorreo("Una sesión ha sido iniciada",request.getEmail(),"Sesión iniciada");
+        //this.enviarCorreo("Una sesión ha sido iniciada",request.getEmail(),"Sesión iniciada");
         return token;
     }
 
@@ -169,22 +171,7 @@ public class AuthService implements UserDetailsService{
         Usuario usuario = usuarioRepository.findById(id).get();
         usuario.setToken(null);
         usuarioRepository.save(usuario);
-    }
-
-    @Async
-    public void enviarCorreo(String texto, String email, String subject){
-        try{
-            SimpleMailMessage mailMessage = new SimpleMailMessage();
-            mailMessage.setFrom("mariel.ecn@gmail.com");
-            mailMessage.setTo(email);
-            mailMessage.setSubject(subject);
-            mailMessage.setText(texto);
-            mailSender.send(mailMessage);
-            System.out.println("Envio de correo completado");
-        }catch(Exception e){            
-            System.out.println("Error al enviar el correo"+ e.getMessage());
-        }
-    }   
+    }  
     
 
 }
