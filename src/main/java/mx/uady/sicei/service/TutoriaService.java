@@ -11,7 +11,7 @@ import mx.uady.sicei.model.Alumno;
 import mx.uady.sicei.model.Profesor;
 import mx.uady.sicei.model.Tutoria;
 import mx.uady.sicei.model.TutoriaLlave;
-import mx.uady.sicei.model.request.TutoriaRequest;
+import mx.uady.sicei.model.Request.TutoriaRequest;
 import mx.uady.sicei.repository.AlumnoRepository;
 import mx.uady.sicei.repository.ProfesorRepository;
 import mx.uady.sicei.repository.TutoriaRepository;

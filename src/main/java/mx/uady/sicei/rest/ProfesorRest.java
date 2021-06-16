@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
 import mx.uady.sicei.model.Profesor;
-import mx.uady.sicei.model.request.ProfesorRequest;
+import mx.uady.sicei.model.Request.ProfesorRequest;
 import mx.uady.sicei.service.ProfesorService;
 
 @RestController // Metaprogramacion

@@ -13,7 +13,7 @@ import mx.uady.sicei.exception.NotFoundException;
 import mx.uady.sicei.model.Alumno;
 import mx.uady.sicei.model.Equipo;
 import mx.uady.sicei.model.Usuario;
-import mx.uady.sicei.model.request.AlumnoRequest;
+import mx.uady.sicei.model.Request.AlumnoRequest;
 import mx.uady.sicei.repository.AlumnoRepository;
 import mx.uady.sicei.repository.UsuarioRepository;
 

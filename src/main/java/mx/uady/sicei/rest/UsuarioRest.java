@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import mx.uady.sicei.model.Usuario;
-import mx.uady.sicei.model.request.UsuarioRequest;
+import mx.uady.sicei.model.Request.UsuarioRequest;
 import mx.uady.sicei.service.UsuarioService;
 
 @RestController

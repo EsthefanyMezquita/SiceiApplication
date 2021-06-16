@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import mx.uady.sicei.exception.NotFoundException;
 import mx.uady.sicei.model.Alumno;
 import mx.uady.sicei.model.Usuario;
-import mx.uady.sicei.model.request.UsuarioRequest;
+import mx.uady.sicei.model.Request.UsuarioRequest;
 import mx.uady.sicei.repository.AlumnoRepository;
 import mx.uady.sicei.repository.UsuarioRepository;
 

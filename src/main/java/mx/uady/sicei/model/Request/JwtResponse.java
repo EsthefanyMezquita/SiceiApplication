@@ -1,4 +1,4 @@
-package mx.uady.sicei.model.request;
+package mx.uady.sicei.model.Request;
 
 import java.io.Serializable;
 

@@ -32,10 +32,10 @@ import org.springframework.http.ResponseEntity;
 import mx.uady.sicei.config.JwtTokenUtil;
 import mx.uady.sicei.model.Alumno;
 import mx.uady.sicei.model.Usuario;
-import mx.uady.sicei.model.request.UsuarioRequest;
-import mx.uady.sicei.model.request.AuthRequest;
-import mx.uady.sicei.model.request.JwtResponse;
-import mx.uady.sicei.model.request.AlumnoRequest;
+import mx.uady.sicei.model.Request.UsuarioRequest;
+import mx.uady.sicei.model.Request.AuthRequest;
+import mx.uady.sicei.model.Request.JwtResponse;
+import mx.uady.sicei.model.Request.AlumnoRequest;
 import mx.uady.sicei.service.AuthService;
 import mx.uady.sicei.service.AlumnoService;
 

@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import mx.uady.sicei.model.Profesor;
-import mx.uady.sicei.model.request.ProfesorRequest;
+import mx.uady.sicei.model.Request.ProfesorRequest;
 import mx.uady.sicei.repository.ProfesorRepository;
 
 @Service

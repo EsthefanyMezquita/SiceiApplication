@@ -1,4 +1,4 @@
-import java.util.*;
+/* import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
 import javax.activation.*;
@@ -83,4 +83,4 @@ catch (MessagingException mex) {
 	mex.printStackTrace();
 }
 }
-}
+ */

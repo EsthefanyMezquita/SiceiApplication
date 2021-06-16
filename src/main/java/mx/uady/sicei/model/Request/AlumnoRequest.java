@@ -1,4 +1,4 @@
-package mx.uady.sicei.model.request;
+package mx.uady.sicei.model.Request;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;

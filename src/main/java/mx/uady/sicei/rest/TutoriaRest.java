@@ -6,7 +6,7 @@ import java.util.List;
 import javax.validation.Valid;
 import mx.uady.sicei.model.Tutoria;
 import mx.uady.sicei.model.TutoriaLlave;
-import mx.uady.sicei.model.request.TutoriaRequest;
+import mx.uady.sicei.model.Request.TutoriaRequest;
 import mx.uady.sicei.service.TutoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import mx.uady.sicei.model.Alumno;
-import mx.uady.sicei.model.request.AlumnoRequest;
+import mx.uady.sicei.model.Request.AlumnoRequest;
 import mx.uady.sicei.service.AlumnoService;
 
 @RestController // Metaprogramacion
