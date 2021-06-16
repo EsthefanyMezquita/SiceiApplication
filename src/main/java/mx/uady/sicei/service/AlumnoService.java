@@ -8,23 +8,31 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.scheduling.annotation.Async;
 
 import mx.uady.sicei.exception.NotFoundException;
 import mx.uady.sicei.model.Alumno;
-import mx.uady.sicei.model.Equipo;
 import mx.uady.sicei.model.Usuario;
 import mx.uady.sicei.model.Request.AlumnoRequest;
 import mx.uady.sicei.repository.AlumnoRepository;
 import mx.uady.sicei.repository.UsuarioRepository;
+import mx.uady.sicei.repository.EquipoRepository;
 
 @Service
 public class AlumnoService {
+    private String actualizacion, data = "";
 
     @Autowired
     private AlumnoRepository alumnoRepository;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private EquipoRepository equipoRepository;
+
+    @Autowired
+    private AuthService authService;
 
     public List<Alumno> getAlumnos() {
 
@@ -86,7 +94,7 @@ public class AlumnoService {
 
         usuario = usuarioRepository.save(usuario);
         alumno = alumnoRepository.save(alumno); // INSERT
-
+        alumno = alumnoRepository.save(alumno); 
         return alumno;
     }
 
@@ -99,12 +107,18 @@ public class AlumnoService {
     */
     @Transactional
     public Alumno actualizarAlumno(Integer id, AlumnoRequest request) {
+        actualizacion = data = "";
         // Validar equipo
         Alumno alumnoEncontrado = getAlumno(id);
         alumnoEncontrado.setCarrera(request.getCarrera());
+        data+=", Carrera: " +alumnoEncontrado.getCarrera();
         alumnoEncontrado.setNombre(request.getNombre());
-        // alumnoEncontrado.setEquipo();
+        data+=", Alumno: " +alumnoEncontrado.getNombre();
+        //alumnoEncontrado.setEquipo(request.getEquipo());
+        //data+=", Equipo: " +alumnoEncontrado.getEquipo();
         alumnoRepository.save(alumnoEncontrado);
+        authService.enviarCorreo("Se actualizó un usuario \n Datos cambiados: \n" + data+ 
+        "\n Datos nuevos:\n"+actualizacion,alumnoEncontrado.getUsuario().getEmail(),"Datos actualizados");
         return alumnoEncontrado;
     }
 

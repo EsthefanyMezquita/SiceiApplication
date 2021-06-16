@@ -36,6 +36,7 @@ public class UsuarioService {
 
         usuarioCrear.setUsuario(request.getUsuario());
         usuarioCrear.setPassword(request.getPassword());
+		usuarioCrear.setEmail(request.getEmail());
 
         String token = UUID.randomUUID().toString();
         usuarioCrear.setToken(token);

@@ -23,10 +23,15 @@ public class TutoriaService {
 
   @Autowired
   private TutoriaRepository tutoriaRepository;
+
   @Autowired
   private AlumnoRepository alumnoRepository;
+
   @Autowired
   private ProfesorRepository profesorRepository;
+  
+  @Autowired
+  private AuthService authService;
 
   public List<Tutoria> getTutorias() {
     List<Tutoria> tutorias = new LinkedList<>();
@@ -104,6 +109,12 @@ public class TutoriaService {
     Tutoria tutoriaEliminada = getTutoria(id);
 
     tutoriaRepository.delete(tutoriaEliminada);
+
+    authService.enviarCorreo("Alumno "+tutoriaEliminada.getAlumno().getNombre()+", su tutoria fue registrada como eliminada. \n Profesor: "+
+    tutoriaEliminada.getProfesor().getNombre()
+    +" \n Horas: " + tutoriaEliminada.getHoras().toString(),
+    tutoriaEliminada.getAlumno().getUsuario().getEmail(),
+     "Eliminada");
   }
 
   @Transactional
