@@ -13,7 +13,9 @@ import java.util.Objects;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import java.util.ArrayList;
 
 //Seguridad con JWT
 import org.springframework.security.core.userdetails.User;
@@ -41,6 +43,12 @@ import mx.uady.sicei.repository.TutoriaRepository;
 import mx.uady.sicei.exception.NotFoundException;
 import mx.uady.sicei.exception.UnauthorizedException;
 
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+
+
 @Service
 public class AuthService implements UserDetailsService{
     @Autowired
@@ -60,6 +68,17 @@ public class AuthService implements UserDetailsService{
 
     @Autowired
 	private AuthenticationManager authenticationManager;
+	
+	@Autowired
+	JavaMailSender javaMailSender;
+
+    private MailSender mailSender;
+    
+    @Autowired
+    public AuthService(MailSender mailSender){
+        this.mailSender = mailSender;
+    }
+
 
     @Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -125,6 +144,8 @@ public class AuthService implements UserDetailsService{
 
         alumno.setUsuario(usuarioSave);
         alumno = alumnoRepository.save(alumno);
+		enviarCorreo("El registro se completó con éxito",
+            request.getEmail(),"Completo");
         return alumno;
     }
 
@@ -139,6 +160,7 @@ public class AuthService implements UserDetailsService{
         String token = UUID.randomUUID().toString();
         usuario.setToken(token);
         usuario = usuarioRepository.save(usuario);
+        enviarCorreo("Una sesión ha sido iniciada",request.getEmail(),"Sesión iniciada");
         return token;
     }
 
@@ -148,4 +170,21 @@ public class AuthService implements UserDetailsService{
         usuario.setToken(null);
         usuarioRepository.save(usuario);
     }
+
+    @Async
+    public void enviarCorreo(String texto, String email, String subject){
+        try{
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+            mailMessage.setFrom("mariel.ecn@gmail.com");
+            mailMessage.setTo(email);
+            mailMessage.setSubject(subject);
+            mailMessage.setText(texto);
+            mailSender.send(mailMessage);
+            System.out.println("Envio de correo completado");
+        }catch(Exception e){            
+            System.out.println("Error al enviar el correo"+ e.getMessage());
+        }
+    }   
+    
+
 }

@@ -3,6 +3,7 @@ package mx.uady.sicei.model.Request;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.validation.constraints.Pattern;
 
 public class UsuarioRequest {
 
@@ -20,6 +21,11 @@ public class UsuarioRequest {
     @Size(min = 5, max = 50)
     @NotEmpty
     private String password;
+
+    @NotNull
+    @Pattern(regexp="^[^@]+@[^@]+[a-zA-Z]{2,}$",message="El correo electronico es incorrecto")
+    @NotEmpty
+    private String email;
 
     public UsuarioRequest() {
 
@@ -47,5 +53,13 @@ public class UsuarioRequest {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getEmail(){
+        return email;
+    }
+
+    public void setEmail(String email){
+        this.email=email;
     }
 }
