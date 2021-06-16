@@ -30,6 +30,11 @@ public class AuthRequest implements Serializable {
     private String carrera;
     
     private Integer equipo;
+
+    @NotNull
+    @Pattern(regexp="^[^@]+@[^@]+[a-zA-Z]{2,}$",message="El correo electronico es incorrecto")
+    @NotEmpty
+    private String email;
     
     public AuthRequest() {
     }
@@ -86,6 +91,14 @@ public class AuthRequest implements Serializable {
     public AuthRequest nombre(String nombre) {
         this.nombre = nombre;
         return this;
+    }
+
+    public String getEmail(){
+        return this.email;
+    }
+
+    public void setEmail(String email){
+        this.email=email;
     }
 
     //fin nuevo

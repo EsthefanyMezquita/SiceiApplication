@@ -36,6 +36,9 @@ public class Usuario {
     @JsonIgnore
     private String token;
 
+    @Column(name="email")
+    private String email; 
+
     public Usuario() {
     }
 
@@ -96,6 +99,19 @@ public class Usuario {
      */
     public String getToken() {
         return token;
+    }
+
+    public String getEmail(){
+        return this.email;
+    }
+
+    public void setEmail(String email){
+        this.email=email;
+    }
+
+    public Usuario email(String email){
+        this.email=email;
+        return this;
     }
 
     
