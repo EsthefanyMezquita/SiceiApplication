@@ -19,10 +19,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import mx.uady.sicei.service.AuthService;
-
+import org.springframework.context.annotation.Lazy;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
+	@Lazy
 	@Autowired
 	private AuthService jwtUserDetailsService;
 
