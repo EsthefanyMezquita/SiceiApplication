@@ -3,14 +3,13 @@ package mx.uady.sicei.repository;
 import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import mx.uady.sicei.model.Tutoria;
-import mx.uady.sicei.model.TutoriaLlave;
 
 
 @Repository
-public interface TutoriaRepository extends CrudRepository<Tutoria, TutoriaLlave> {
-  List<Tutoria> findByAlumnoId(Integer id_Alumno);
-  List<Tutoria> findByProfesorId(Integer id_Profesor);
+public interface TutoriaRepository extends CrudRepository<Tutoria, Integer> {
+  List<Tutoria> findByAlumnoId(Integer alumnoId);
+  List<Tutoria> findByProfesorId(Integer profesorId);
+  Tutoria findByAlumnoIdAndProfesorId(Integer alumnoId, Integer profesorId);
 }

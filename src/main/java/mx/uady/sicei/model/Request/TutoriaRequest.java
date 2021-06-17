@@ -4,24 +4,33 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
-import mx.uady.sicei.model.TutoriaLlave;
-
 public class TutoriaRequest {
 
   @NotNull
-  private TutoriaLlave id;
+  private Integer alumnoId;
+  
+  @NotNull
+  private Integer profesorId;
 
   @NotNull
   @Max(2)
   @Positive
   private Integer horas;
 
-  public TutoriaLlave getId() {
-    return id;
+  public Integer getAlumnoId(){
+    return alumnoId;
+  }
+  
+  public void setAlumnoId(Integer alumnoId){
+    this.alumnoId = alumnoId;
   }
 
-  public void setId(TutoriaLlave id) {
-    this.id = id;
+  public Integer getProfesorId(){
+    return profesorId;
+  }
+  
+  public void setProfesorId(Integer profesorId){
+    this.profesorId = profesorId;
   }
 
   public Integer getHoras() {

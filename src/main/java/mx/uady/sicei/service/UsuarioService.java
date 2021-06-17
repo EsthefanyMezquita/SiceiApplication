@@ -64,4 +64,9 @@ public class UsuarioService {
         throw new NotFoundException();
     }
 
+    public Usuario getUsuarioByUsername(String username){
+        Usuario usuario = usuarioRepository.findByUsuario(username);
+        return usuario;
+    }
+
 }

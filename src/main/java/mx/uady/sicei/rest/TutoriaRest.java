@@ -5,8 +5,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import javax.validation.Valid;
 import mx.uady.sicei.model.Tutoria;
-import mx.uady.sicei.model.TutoriaLlave;
 import mx.uady.sicei.model.Request.TutoriaRequest;
+import mx.uady.sicei.service.EmailService;
 import mx.uady.sicei.service.TutoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,43 +26,42 @@ public class TutoriaRest {
   @Autowired
   private TutoriaService tutoriaService;
 
+  @Autowired
+  private EmailService emailService;
+
   @GetMapping("/tutorias")
   public ResponseEntity<List<Tutoria>> getTutoria() {
     List<Tutoria> tutorias = tutoriaService.getTutorias();
     return ResponseEntity.ok().body(tutorias);
   }
 
+  @GetMapping("/tutorias/{id}")
+  public ResponseEntity<Tutoria> getTutoriaById(@PathVariable("id") Integer id) {
+    Tutoria tutoria = tutoriaService.getTutoriaById(id);
+    return ResponseEntity.ok().body(tutoria);
+  }
+
   @GetMapping("/tutorias/alumnos/{alumnoId}/profesores/{profesorId}")
-  public ResponseEntity<Tutoria> getTutoria(@PathVariable("alumnoId") Integer id_alumno, @PathVariable("profesorId") Integer id_profesor) {
-    TutoriaLlave id = new TutoriaLlave(id_alumno, id_profesor);
-
-    Tutoria tutoria = tutoriaService.getTutoria(id);
-
+  public ResponseEntity<Tutoria> getTutoria(@PathVariable("alumnoId") Integer alumnoId, @PathVariable("profesorId") Integer profesorId) {
+    Tutoria tutoria = tutoriaService.getTutoriaByAlumnoIdAndProfesorId(alumnoId, profesorId);
     return ResponseEntity.ok().body(tutoria);
   }
 
   @PostMapping("/tutorias")
-  public ResponseEntity<Tutoria> postTutoria(@RequestBody TutoriaRequest request) throws URISyntaxException {
-    Tutoria tutoriaCreada = tutoriaService.crearTutoria(request);
-
+  public ResponseEntity<Tutoria> postTutoria(@RequestBody @Valid TutoriaRequest request) throws URISyntaxException {
+    Tutoria tutoriaCreada = tutoriaService.crearTutoria(request, emailService);
     return ResponseEntity.created(new URI("/tutorias/" + tutoriaCreada.getId())).body(tutoriaCreada);
   }
 
-  @PutMapping("/tutorias/alumnos/{alumnoId}/profesores/{profesorId}")
-  public ResponseEntity<Tutoria> putTutoria(@PathVariable("alumnoId") Integer id_alumno, @PathVariable("profesorId") Integer id_profesor, @RequestBody @Valid TutoriaRequest request) {
-    TutoriaLlave id = new TutoriaLlave(id_alumno, id_profesor);
-
-    Tutoria tutoriaActualizada = tutoriaService.actualizarTutoria(id, request);
-
+  @PutMapping("/tutorias")
+  public ResponseEntity<Tutoria> putTutoria(@RequestBody @Valid TutoriaRequest request) {
+    Tutoria tutoriaActualizada = tutoriaService.actualizarTutoria(request, emailService);
     return ResponseEntity.ok().body(tutoriaActualizada);
   }
 
   @DeleteMapping("/tutorias/alumnos/{alumnoId}/profesores/{profesorId}")
-  public ResponseEntity<Void> deleteTutoria(@PathVariable("alumnoId") Integer id_alumno, @PathVariable("profesorId") Integer id_profesor) {
-    TutoriaLlave id = new TutoriaLlave(id_alumno, id_profesor);
-
-    tutoriaService.eliminarTutoria(id);
-
+  public ResponseEntity<Void> deleteTutoria(@PathVariable("alumnoId") Integer alumnoId, @PathVariable("profesorId") Integer profesorId) {
+    tutoriaService.eliminarTutoria(alumnoId, profesorId, emailService);
     return ResponseEntity.ok().build();
   }
 }

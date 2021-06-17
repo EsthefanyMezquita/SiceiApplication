@@ -1,57 +1,31 @@
 package mx.uady.sicei.service;
 
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.UUID;
-
-import javax.validation.constraints.Null;
 
 import org.springframework.transaction.annotation.Transactional;
 
-//import io.jsonwebtoken.lang.Objects;
-import java.util.Objects;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
 
 //Seguridad con JWT
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 //import mx.uady.sicei.exception.*;
 import mx.uady.sicei.model.Alumno;
 import mx.uady.sicei.model.Usuario;
 import mx.uady.sicei.model.Equipo;
 import mx.uady.sicei.model.Carrera;
-import mx.uady.sicei.model.Tutoria;
-import mx.uady.sicei.model.Request.AlumnoRequest;
 import mx.uady.sicei.model.Request.UsuarioRequest;
 import mx.uady.sicei.model.Request.AuthRequest;
 import mx.uady.sicei.repository.AlumnoRepository;
 import mx.uady.sicei.repository.UsuarioRepository;
 import mx.uady.sicei.repository.EquipoRepository;
-import mx.uady.sicei.repository.TutoriaRepository;
-import mx.uady.sicei.config.EmailConfiguration;
 import mx.uady.sicei.exception.NotFoundException;
 import mx.uady.sicei.exception.UnauthorizedException;
-
-import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Service
 public class AuthService implements UserDetailsService{
@@ -65,23 +39,8 @@ public class AuthService implements UserDetailsService{
     private EquipoRepository equipoRepository;
 
     @Autowired
-    private TutoriaRepository tutoriaRepository;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
-	private AuthenticationManager authenticationManager;
-	
-	@Autowired
-	JavaMailSender javaMailSender;
-
-    private MailSender mailSender;
-    
-    /*@Autowired
-    public AuthService(MailSender mailSender){
-        this.mailSender = mailSender;
-    }*/
 
     @Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -162,7 +121,7 @@ public class AuthService implements UserDetailsService{
         String token = UUID.randomUUID().toString();
         usuario.setToken(token);
         usuario = usuarioRepository.save(usuario);
-        //this.enviarCorreo("Una sesión ha sido iniciada",request.getEmail(),"Sesión iniciada");
+        //emailService.sendEmail("Una sesión ha sido iniciada",usuario.getEmail(),"Sesión iniciada");
         return token;
     }
 

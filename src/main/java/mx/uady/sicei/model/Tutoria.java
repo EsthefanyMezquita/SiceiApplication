@@ -3,8 +3,13 @@ package mx.uady.sicei.model;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -13,16 +18,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "tutorias")
 public class Tutoria {
 
-  @EmbeddedId
-  @JsonIgnore
-  private TutoriaLlave id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
 
-  @ManyToOne
-  @JoinColumn(name="id_alumno", insertable = false, updatable = false)
+  @OneToOne
+  @JoinColumn(name = "id_alumno")
   private Alumno alumno;
 
-  @ManyToOne
-  @JoinColumn(name="id_profesor", insertable = false, updatable = false)
+  @OneToOne
+  @JoinColumn(name = "id_profesor")
   private Profesor profesor;
 
   @Column(name = "horas")
@@ -30,16 +35,15 @@ public class Tutoria {
 
   public Tutoria() {}
 
-  public Tutoria(TutoriaLlave id, Integer horas) {
-    this.id = id;
+  public Tutoria(Integer horas) {
     this.horas = horas;
   }
 
-  public void setId(TutoriaLlave id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 
-  public TutoriaLlave getId() {
+  public Integer getId() {
     return this.id;
   }
 

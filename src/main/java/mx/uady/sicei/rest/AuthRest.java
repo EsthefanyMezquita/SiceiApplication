@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -32,7 +33,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import org.springframework.http.ResponseEntity;
 
-import mx.uady.sicei.config.EmailConfiguration;
 import mx.uady.sicei.config.JwtTokenUtil;
 import mx.uady.sicei.model.Alumno;
 import mx.uady.sicei.model.Usuario;
@@ -41,6 +41,8 @@ import mx.uady.sicei.model.Request.AuthRequest;
 import mx.uady.sicei.model.Request.JwtResponse;
 import mx.uady.sicei.model.Request.AlumnoRequest;
 import mx.uady.sicei.service.AuthService;
+import mx.uady.sicei.service.EmailService;
+import mx.uady.sicei.service.UsuarioService;
 import mx.uady.sicei.service.AlumnoService;
 
 @RestController
@@ -58,12 +60,17 @@ public class AuthRest {
     @Autowired
 	private AuthenticationManager authenticationManager;
 
-    private String emailFromAddress = "no-reply@sicei2020.mx";
+    @Autowired
+    UsuarioService usuarioService;
+
+    @Autowired
+    private EmailService emailService;
 
     @PostMapping("/register")
     public ResponseEntity<?> postRegister(@RequestBody @Valid AuthRequest request)throws Exception {
         /* Alumno alumno = authService.registrarAlumno(request);
         return ResponseEntity.created(new URI("alumnos" + alumno.getId())).body(alumno); */
+        emailService.sendEmail("<b>Bienvenido " +request.getUsuario() +"!<b>\nTu registro se realizó correctamente.", request.getEmail(), "Hola " +request.getNombre());
         return ResponseEntity.ok(authService.registrarAlumno(request));
     }
 
@@ -75,7 +82,8 @@ public class AuthRest {
 
 		final UserDetails userDetails = jwtInMemoryUserDetailsService.loadUserByUsername(request.getUsuario());
 		final String token = jwtTokenUtil.generateToken(userDetails);
-        enviarCorreo(request.getEmailCfg(), "Se ha iniciado sesion desde: " +userAgent, request.getEmail(), "Inicio de sesión");
+        
+        emailService.sendEmail("Se ha iniciado sesion desde: " +userAgent, usuarioService.getUsuarioByUsername(request.getUsuario()).getEmail(), "Inicio de sesión");
 
 		return ResponseEntity.ok().body(new JwtResponse(token));
     }
@@ -92,27 +100,6 @@ public class AuthRest {
 			throw new Exception("INVALID_CREDENTIALS", e);
 		}
 	}
-
-    private void enviarCorreo(EmailConfiguration emailCfg,String body, String emailTo, String subject){
-        // Create a mail sender
-        System.out.println("Enviando correo");
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.mailtrap.io");
-        mailSender.setPort(2525);
-        mailSender.setUsername("d1a954608db0c7");
-        mailSender.setPassword("ab560390d3f198");
-
-        // Create an email instance
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setFrom(this.emailFromAddress);
-        mailMessage.setTo(emailTo);
-        mailMessage.setSubject(subject);
-        mailMessage.setText(body);
-
-        // Send mail
-        mailSender.send(mailMessage);
-        System.out.println("Correo enviado");
-    }
 
     @PostMapping("/logout/{id}")
     public ResponseEntity<Void> postLogout(@PathVariable Integer id ) throws URISyntaxException {

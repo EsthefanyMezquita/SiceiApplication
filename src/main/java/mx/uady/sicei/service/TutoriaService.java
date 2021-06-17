@@ -10,7 +10,6 @@ import mx.uady.sicei.exception.NotFoundException;
 import mx.uady.sicei.model.Alumno;
 import mx.uady.sicei.model.Profesor;
 import mx.uady.sicei.model.Tutoria;
-import mx.uady.sicei.model.TutoriaLlave;
 import mx.uady.sicei.model.Request.TutoriaRequest;
 import mx.uady.sicei.repository.AlumnoRepository;
 import mx.uady.sicei.repository.ProfesorRepository;
@@ -33,6 +32,15 @@ public class TutoriaService {
   @Autowired
   private AuthService authService;
 
+  @Autowired
+  private AlumnoService alumnoService;
+  
+  @Autowired
+  private ProfesorService profesorService;
+
+  @Autowired
+  private EmailService emailService;
+
   public List<Tutoria> getTutorias() {
     List<Tutoria> tutorias = new LinkedList<>();
 
@@ -41,7 +49,7 @@ public class TutoriaService {
     return tutorias;
   }
 
-  public Tutoria getTutoria(TutoriaLlave id) {
+  public Tutoria getTutoriaById(Integer id) {
     Optional<Tutoria> tutoriaEncontrada = tutoriaRepository.findById(id);
 
     if (!tutoriaEncontrada.isPresent()) {
@@ -49,6 +57,16 @@ public class TutoriaService {
     }
 
     return tutoriaEncontrada.get();
+  }
+
+  public Tutoria getTutoriaByAlumnoIdAndProfesorId(Integer alumnoId, Integer profesorId) {
+    Tutoria tutoriaEncontrada = tutoriaRepository.findByAlumnoIdAndProfesorId(alumnoId, profesorId);
+
+    if (tutoriaEncontrada == null) {
+      throw new NotFoundException("No se encuentran en los registros la combinacion de ID's.");
+    }
+
+    return tutoriaEncontrada;
   }
 
   public List<Tutoria> getTutoriaByIdAlumno(Integer alumnoId) {
@@ -68,27 +86,62 @@ public class TutoriaService {
   }
 
   @Transactional
-  public Tutoria crearTutoria(TutoriaRequest request) {
+  public Tutoria crearTutoria(TutoriaRequest request, EmailService emailService) {
 
     Tutoria tutoria = new Tutoria();
 
-    Alumno alumno = this.alumnoExist(request.getId().getIdAlumno());
-    Profesor profesor = this.profesorExist(request.getId().getIdProfesor());
+    try{
+      Alumno alumno = alumnoService.getAlumno(request.getAlumnoId());
+      Profesor profesor = profesorService.getProfesor(request.getProfesorId());
 
-    tutoria.setId(request.getId());
-    tutoria.setAlumno(alumno);
-    tutoria.setProfesor(profesor);
-    tutoria.setHoras(request.getHoras());
-    tutoria = tutoriaRepository.save(tutoria);
+      tutoria.setAlumno(alumno);
+      tutoria.setProfesor(profesor);
+      tutoria.setHoras(request.getHoras());
 
+      tutoria = tutoriaRepository.save(tutoria);
+      emailService.sendEmail("Se te asignó una tutoria:\nMaestro"+ tutoria.getProfesor().getNombre() +
+                              "\nDuración: " + tutoria.getHoras()+" hora(s)",
+                              tutoria.getAlumno().getUsuario().getEmail(), "Tutoria asignada");
+    } catch(Exception ex) {
+        System.out.print(ex.getMessage());
+    }
     return tutoria;
   }
+
+  @Transactional
+  public Tutoria actualizarTutoria(TutoriaRequest tutoriaRequest, EmailService emailService) {
+    Tutoria tutoriaEncontrada = tutoriaRepository.findByAlumnoIdAndProfesorId(tutoriaRequest.getAlumnoId(), tutoriaRequest.getProfesorId());
+
+    tutoriaEncontrada.setHoras(tutoriaRequest.getHoras());
+    tutoriaRepository.save(tutoriaEncontrada);
+
+    emailService.sendEmail("La tutoria con el maestro "+ tutoriaEncontrada.getProfesor().getNombre() +
+                              " fue modificada:\nMaestro: "+tutoriaEncontrada.getProfesor().getNombre()+"\nDuración: "+tutoriaEncontrada.getHoras() +" hora(s).",
+                              tutoriaEncontrada.getAlumno().getUsuario().getEmail(), "Tutoria actualizada");
+
+    return tutoriaEncontrada;
+  }
+
+  @Transactional
+  public Tutoria eliminarTutoria(Integer alumnoId, Integer profesorId, EmailService emailService) {
+    Tutoria tutoriaEliminada = tutoriaRepository.findByAlumnoIdAndProfesorId(alumnoId, profesorId);
+
+    tutoriaRepository.delete(tutoriaEliminada);
+
+    emailService.sendEmail("La tutoria con el maestro "+ tutoriaEliminada.getProfesor().getNombre() +
+                              " de " + tutoriaEliminada.getHoras()+"hora(s) fue cancelada.",
+                              tutoriaEliminada.getAlumno().getUsuario().getEmail(), "Tutoria cancelada");
+                              
+    return tutoriaEliminada;
+  }
+
+  
 
   private Alumno alumnoExist(Integer alumnoId) {
     Optional<Alumno> alumnoExist = alumnoRepository.findById(alumnoId);
 
     if(!alumnoExist.isPresent()) {
-      throw new NotFoundException("El alumno no pudo ser encontrado");
+      throw new NotFoundException("El alumno con id :" + alumnoId+" no existe en los registros.");
     }
 
     return alumnoExist.get();
@@ -98,32 +151,9 @@ public class TutoriaService {
     Optional<Profesor> profesorExist = profesorRepository.findById(profesorId);
 
     if(!profesorExist.isPresent()) {
-      throw new NotFoundException("El profesor no pudo ser encontrado");
+      throw new NotFoundException("El profesor con id :" + profesorId+" no existe en los registros.");
     }
 
     return profesorExist.get();
-  }
-
-  @Transactional
-  public void eliminarTutoria(TutoriaLlave id) {
-    Tutoria tutoriaEliminada = getTutoria(id);
-
-    tutoriaRepository.delete(tutoriaEliminada);
-
-    /*authService.enviarCorreo("Alumno "+tutoriaEliminada.getAlumno().getNombre()+", su tutoria fue registrada como eliminada. \n Profesor: "+
-    tutoriaEliminada.getProfesor().getNombre()
-    +" \n Horas: " + tutoriaEliminada.getHoras().toString(),
-    tutoriaEliminada.getAlumno().getUsuario().getEmail(),
-     "Eliminada");*/
-  }
-
-  @Transactional
-  public Tutoria actualizarTutoria(TutoriaLlave id, TutoriaRequest request) {
-    Tutoria tutoriaEncontrada = getTutoria(id);
-
-    tutoriaEncontrada.setHoras(request.getHoras());
-    tutoriaRepository.save(tutoriaEncontrada);
-
-    return tutoriaEncontrada;
   }
 }
