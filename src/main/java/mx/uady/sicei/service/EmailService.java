@@ -22,7 +22,8 @@ public class EmailService {
     @Value("${spring.mail.password}")
     private String password;
 
-    private String emailFromAdress = "no-reply@uady.mx";
+    @Value("${spring.mail.from}")
+    private String emailFromAdress;
 
     // @Async
     public String sendEmail(String body, String emailTo, String subject){
