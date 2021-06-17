@@ -2,7 +2,6 @@ package mx.uady.sicei.rest;
 
 import java.util.List;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.springframework.beans.factory.annotation.Autowired;

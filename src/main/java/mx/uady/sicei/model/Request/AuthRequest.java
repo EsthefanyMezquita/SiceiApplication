@@ -5,9 +5,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import javax.validation.constraints.Pattern;
-
 
 public class AuthRequest implements Serializable {
 

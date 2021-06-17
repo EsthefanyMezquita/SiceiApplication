@@ -8,7 +8,6 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.scheduling.annotation.Async;
 
 import mx.uady.sicei.exception.NotFoundException;
 import mx.uady.sicei.model.Alumno;
@@ -16,7 +15,6 @@ import mx.uady.sicei.model.Usuario;
 import mx.uady.sicei.model.Request.AlumnoRequest;
 import mx.uady.sicei.repository.AlumnoRepository;
 import mx.uady.sicei.repository.UsuarioRepository;
-import mx.uady.sicei.repository.EquipoRepository;
 
 @Service
 public class AlumnoService {
@@ -27,12 +25,6 @@ public class AlumnoService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-
-    @Autowired
-    private EquipoRepository equipoRepository;
-
-    @Autowired
-    private AuthService authService;
 
     public List<Alumno> getAlumnos() {
 

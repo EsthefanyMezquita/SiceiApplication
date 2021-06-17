@@ -1,14 +1,17 @@
 package mx.uady.sicei.service;
 
 import java.util.ArrayList;
-import java.util.UUID;
+import java.util.Objects;
 
 import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 //Seguridad con JWT
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,12 +22,11 @@ import mx.uady.sicei.model.Alumno;
 import mx.uady.sicei.model.Usuario;
 import mx.uady.sicei.model.Equipo;
 import mx.uady.sicei.model.Carrera;
-import mx.uady.sicei.model.Request.UsuarioRequest;
 import mx.uady.sicei.model.Request.AuthRequest;
 import mx.uady.sicei.repository.AlumnoRepository;
 import mx.uady.sicei.repository.UsuarioRepository;
 import mx.uady.sicei.repository.EquipoRepository;
-import mx.uady.sicei.exception.NotFoundException;
+import mx.uady.sicei.config.JwtTokenUtil;
 import mx.uady.sicei.exception.UnauthorizedException;
 
 @Service
@@ -40,6 +42,9 @@ public class AuthService implements UserDetailsService{
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+	private UsuarioService usuarioService;
 
 
     @Override
@@ -63,7 +68,7 @@ public class AuthService implements UserDetailsService{
 	} */
 
     @Transactional
-    public Alumno registrarAlumno(AuthRequest request) {
+    public Alumno registrarAlumno(AuthRequest request, EmailService emailService) {
         Usuario usuarioCreate = new Usuario();
         usuarioCreate.setUsuario(request.getUsuario());
         usuarioCreate.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -107,22 +112,29 @@ public class AuthService implements UserDetailsService{
 
         alumno.setUsuario(usuarioSave);
         alumno = alumnoRepository.save(alumno);
+        emailService.sendEmail("<b>Bienvenido " +request.getUsuario() +"!<b>\nTu registro se realizó correctamente.", request.getEmail(), "Hola " +request.getNombre());
         return alumno;
     }
 
     @Transactional
-    public String login(UsuarioRequest request){
-        Usuario usuario = usuarioRepository.findByUsuario(request.getUsuario());
+    public Usuario login(AuthRequest request, EmailService emailService, String userAgent,
+        JwtTokenUtil jwtTokenUtil, UserDetailsService jwtInMemoryUserDetailsService, AuthenticationManager authenticationManager) throws Exception {
+        
+        try{
+            authenticate(request.getUsuario(), request.getPassword(), authenticationManager);
+            Usuario usuario = usuarioService.getUsuarioByUsername(request.getUsuario());
 
-        if(usuario==null || !passwordEncoder.matches(request.getPassword(), usuario.getPassword())){
-            throw new NotFoundException();
-        }
+            final UserDetails userDetails = jwtInMemoryUserDetailsService.loadUserByUsername(request.getUsuario());
+            usuario.setToken(jwtTokenUtil.generateToken(userDetails));
 
-        String token = UUID.randomUUID().toString();
-        usuario.setToken(token);
-        usuario = usuarioRepository.save(usuario);
-        //emailService.sendEmail("Una sesión ha sido iniciada",usuario.getEmail(),"Sesión iniciada");
-        return token;
+            emailService.sendEmail("Se ha iniciado sesion desde: " +userAgent, usuarioService.getUsuarioByUsername(request.getUsuario()).getEmail(), "Inicio de sesión");
+            
+            return usuario;
+        } catch (DisabledException e) {
+			throw new Exception("USER_DISABLED", e);
+		} catch (BadCredentialsException e) {
+			throw new Exception("INVALID_CREDENTIALS", e);
+		}
     }
 
     @Transactional
@@ -131,6 +143,19 @@ public class AuthService implements UserDetailsService{
         usuario.setToken(null);
         usuarioRepository.save(usuario);
     }  
+
+    private void authenticate(String username, String password, AuthenticationManager authenticationManager) throws Exception {
+		Objects.requireNonNull(username);
+		Objects.requireNonNull(password);
+
+		try {
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+		} catch (DisabledException e) {
+			throw new Exception("USER_DISABLED", e);
+		} catch (BadCredentialsException e) {
+			throw new Exception("INVALID_CREDENTIALS", e);
+		}
+	}
     
 
 }
