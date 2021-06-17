@@ -128,10 +128,10 @@ public class TutoriaService {
 
     tutoriaRepository.delete(tutoriaEliminada);
 
-    emailService.sendEmail("La tutoria con el maestro "+ tutoriaEliminada.getProfesor().getNombre() +
-                              " de " + tutoriaEliminada.getHoras()+"hora(s) fue cancelada.",
+    emailService.sendEmail("La tutoria:\nMaestro: "+ tutoriaEliminada.getProfesor().getNombre() +
+                              "\nDuración: " + tutoriaEliminada.getHoras()+" hora(s)\nFue cancelada.",
                               tutoriaEliminada.getAlumno().getUsuario().getEmail(), "Tutoria cancelada");
-                              
+
     return tutoriaEliminada;
   }
 
