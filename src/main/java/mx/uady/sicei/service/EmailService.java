@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,7 +24,7 @@ public class EmailService {
     @Value("${spring.mail.from}")
     private String emailFromAdress;
 
-    // @Async
+    @Async
     public String sendEmail(String body, String emailTo, String subject){
         String result = "El correo no fue enviado";
         try{
